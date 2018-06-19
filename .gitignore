@@ -3,3 +3,8 @@ incremental_db/*
 output_files/*
 work/*
 *.jar
+*.qsf
+*.wlf
+*.mpf
+*.mti
+*.bak
