@@ -50,7 +50,7 @@ always@(OP) begin
 		I_Type_JAL:    ControlValues= 12'bxx_xxx_xx_xx_xxx;
 		I_Type_BEQ:    ControlValues= 12'bxx_xxx_xx_xx_xxx;
 		I_Type_BNE:    ControlValues= 12'bxx_xxx_xx_xx_xxx;
-		I_Type_LUI:    ControlValues= 12'bxx_xxx_xx_xx_xxx;
+		I_Type_LUI:    ControlValues= 12'b00_101_00_00_110;
 		default:
 			ControlValues= 12'b000000000000;
 	endcase
