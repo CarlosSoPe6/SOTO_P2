@@ -204,7 +204,7 @@ Multiplexer2to1
 )
 MUX_ForShamtOrALUSrc
 (
-	// .Selector(ShamtSelector_wire),
+	.Selector(ShamtSelector_wire),
 	.MUX_Data0(ReadData2OrInmmediate_wire),
 	.MUX_Data1(ShamtExtend_wire),
 	.MUX_Output(ALUSrcOrShamt_wire)
