@@ -58,7 +58,7 @@ localparam SRL	= 4'b1001;
 				ALUResult= A + B;
 			SLL:	
 				ALUResult= B << A;
-			SLR:
+			SRL:
 				ALUResult= B >> A;
 		default:
 			ALUResult= 0;
