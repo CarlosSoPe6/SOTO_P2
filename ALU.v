@@ -57,9 +57,9 @@ localparam SLR	= 4'b1001;
 			WORD:
 				ALUResult= A + B;
 			SLL:	
-				ALUResult= A << B;
+				ALUResult= B << A;
 			SLR:
-				ALUResult= A >> B;
+				ALUResult= B >> A;
 		default:
 			ALUResult= 0;
 		endcase // case(control)
