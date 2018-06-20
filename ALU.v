@@ -34,6 +34,8 @@ localparam SUB 	= 4'b0100;
 localparam XOR 	= 4'b0101;
 localparam WORD	= 4'b0110;
 localparam LUI 	= 4'b1010;
+localparam SLL	= 4'b1011;
+localparam SLR	= 4'b1100;
    
    always @ (A or B or ALUOperation)
      begin
@@ -53,7 +55,11 @@ localparam LUI 	= 4'b1010;
 			LUI:
 				ALUResult= {B, 16'b0};
 			WORD:
-				ALUResult= A + (B << 2);
+				ALUResult= A + B;
+			SLL:	
+				ALUResult= A << B;
+			SLR:
+				ALUResult= A >> B;
 		default:
 			ALUResult= 0;
 		endcase // case(control)
