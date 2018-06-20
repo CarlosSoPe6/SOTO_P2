@@ -35,7 +35,7 @@ localparam XOR 	= 4'b0101;
 localparam WORD	= 4'b0110;
 localparam LUI 	= 4'b0111;
 localparam SLL	= 4'b1000;
-localparam SLR	= 4'b1001;
+localparam SRL	= 4'b1001;
    
    always @ (A or B or ALUOperation)
      begin
@@ -58,7 +58,7 @@ localparam SLR	= 4'b1001;
 				ALUResult= A + B;
 			SLL:	
 				ALUResult= A << B;
-			SLR:
+			SRL:
 				ALUResult= A >> B;
 		default:
 			ALUResult= 0;
