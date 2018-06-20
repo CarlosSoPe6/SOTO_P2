@@ -27,6 +27,7 @@ module Control
 	output RegWrite,
 	output [2:0]ALUOp
 );
+
 localparam R_Type_Default	= 0;
 //localparam R_Type_Swift 	= 0;
 localparam I_Type_J			= 6'h02;
