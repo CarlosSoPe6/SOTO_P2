@@ -29,7 +29,6 @@ module Control
 );
 
 localparam R_Type_Default	= 0;
-localparam R_Type_Shift 	= 0;
 localparam I_Type_J			= 6'h02;
 localparam I_Type_JAL		= 6'h03;
 localparam I_Type_BEQ		= 6'h04;
@@ -38,19 +37,29 @@ localparam I_Type_ADDI		= 6'h08;
 localparam I_Type_ORI		= 6'h0d;
 localparam I_Type_LUI		= 6'h0f;
 
+localparam Func_Shift_Left	= 6'b00_0000;
+localparam Func_Shift_Right	= 6'b00_0010;
+
 reg [11:0] ControlValues;
 
-always@(OP) begin
+always@(OP or Function) begin
 	case(OP)
-		R_Type_Default:	ControlValues= 12'b01_001_00_00_111;
-		R_Type_Shift:	ControlValues= 12'b11_001_00_00_111;
+		R_Type_Default:
+			case (Function)
+			  	Func_Shift_Left: 
+			  		ControlValues= 12'b11_001_00_00_111;
+				Func_Shift_Right: 
+			  		ControlValues= 12'b11_001_00_00_111;
+			  	default: 
+			  		ControlValues= 12'b01_001_00_00_111;
+			endcase
 		I_Type_ADDI:	ControlValues= 12'b00_101_00_00_100;
 		I_Type_ORI:		ControlValues= 12'b00_101_00_00_101;
+		I_Type_LUI:		ControlValues= 12'b00_101_00_00_110;
 		I_Type_J:		ControlValues= 12'bxx_xxx_xx_xx_xxx;
 		I_Type_JAL:		ControlValues= 12'bxx_xxx_xx_xx_xxx;
 		I_Type_BEQ:		ControlValues= 12'bxx_xxx_xx_xx_xxx;
 		I_Type_BNE:		ControlValues= 12'bxx_xxx_xx_xx_xxx;
-		I_Type_LUI:		ControlValues= 12'b00_101_00_00_110;
 		default:
 			ControlValues= 12'b000000000000;
 	endcase
