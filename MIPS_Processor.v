@@ -52,8 +52,13 @@ wire RegDst_wire;
 wire NotZeroANDBrachNE;
 wire ZeroANDBrachEQ;
 wire ORForBranch;
+// Control Unit wires
 wire ALUSrc_wire;
 wire RegWrite_wire;
+wire MemWrite_wire;
+wire MemRead_wire;
+wire MemtoReg_wire;
+
 wire Zero_wire;
 wire [2:0] ALUOp_wire;
 wire [3:0] ALUOperation_wire;
@@ -68,6 +73,8 @@ wire [31:0] ALUResult_wire;
 wire [31:0] PC_4_wire;
 wire [31:0] InmmediateExtendAnded_wire;
 wire [31:0] PCtoBranch_wire;
+wire [31:0] MemoryData_wire;
+wire [31:0] MemoryDataOrALU_wire;
 integer ALUStatus;
 
 
@@ -85,7 +92,10 @@ ControlUnit
 	.BranchEQ(BranchEQ_wire),
 	.ALUOp(ALUOp_wire),
 	.ALUSrc(ALUSrc_wire),
-	.RegWrite(RegWrite_wire)
+	.RegWrite(RegWrite_wire),
+	.MemWrite(MemWrite_wire),
+	.MemRead(MemRead_wire),
+	.MemtoReg(MemtoReg_wire)
 );
 
 
@@ -147,10 +157,9 @@ Register_File
 	.WriteRegister(WriteRegister_wire),
 	.ReadRegister1(Instruction_wire[25:21]),
 	.ReadRegister2(Instruction_wire[20:16]),
-	.WriteData(ALUResult_wire),
+	.WriteData(MemoryDataOrALU_wire),
 	.ReadData1(ReadData1_wire),
 	.ReadData2(ReadData2_wire)
-
 );
 
 SignExtend
@@ -198,8 +207,33 @@ ArithmeticLogicUnit
 	.ALUResult(ALUResult_wire)
 );
 
-assign ALUResultOut = ALUResult_wire;
+DataMemory
+#(
+	.DATA_WIDTH(32),
+	.MEMORY_DEPTH(1024)
+)
+RAM_Memory
+(
+	.WriteData(ReadData2_wire),
+	.Address(ALUResultOut),
+	.MemWrite(MemWrite_wire),
+	.MemRead(MemRead_wire),
+	.ReadData(MemoryData_wire)
+);
 
+Multiplexer2to1
+#(
+	.NBits(32)
+)
+MuxForReadMemoryOrALU
+(
+	.Selector(MemtoReg_wire),
+	.MUX_Data0(ALUResultOut),
+	.MUX_Data1(MemoryData_wire),
+	.MUX_Output(MemoryDataOrALU_wire)
+);
+
+assign ALUResultOut = ALUResult_wire;
 
 endmodule
 
