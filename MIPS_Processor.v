@@ -58,6 +58,7 @@ wire RegWrite_wire;
 wire MemWrite_wire;
 wire MemRead_wire;
 wire MemtoReg_wire;
+wire ShamtSelector_wire;
 
 wire Zero_wire;
 wire [2:0] ALUOp_wire;
@@ -68,7 +69,9 @@ wire [31:0] Instruction_wire;
 wire [31:0] ReadData1_wire;
 wire [31:0] ReadData2_wire;
 wire [31:0] InmmediateExtend_wire;
+wire [31:0] ShamtExtend_wire;
 wire [31:0] ReadData2OrInmmediate_wire;
+wire [31:0] ALUSrcOrShamt_wire;
 wire [31:0] ALUResult_wire;
 wire [31:0] PC_4_wire;
 wire [31:0] InmmediateExtendAnded_wire;
@@ -87,6 +90,7 @@ Control
 ControlUnit
 (
 	.OP(Instruction_wire[31:26]),
+	.Function(Instruction_wire[5:0]),
 	.RegDst(RegDst_wire),
 	.BranchNE(BranchNE_wire),
 	.BranchEQ(BranchEQ_wire),
@@ -95,7 +99,8 @@ ControlUnit
 	.RegWrite(RegWrite_wire),
 	.MemWrite(MemWrite_wire),
 	.MemRead(MemRead_wire),
-	.MemtoReg(MemtoReg_wire)
+	.MemtoReg(MemtoReg_wire),
+	.ShamtSelector(ShamtSelector_wire)
 );
 
 
@@ -170,7 +175,6 @@ SignExtendForConstants
 );
 
 
-
 Multiplexer2to1
 #(
 	.NBits(32)
@@ -186,6 +190,27 @@ MUX_ForReadDataAndInmediate
 );
 
 
+UnsignedExtend
+UnsignedExtendForShamt
+(
+	.DataInput(Instruction_wire[10:6]),
+	.UnsignedExtendOutput(ShamtExtend_wire)
+);
+
+
+Multiplexer2to1
+#(
+	.NBits(32)
+)
+MUX_ForShamtOrALUSrc
+(
+	// .Selector(ShamtSelector_wire),
+	.MUX_Data0(ReadData2OrInmmediate_wire),
+	.MUX_Data1(ShamtExtend_wire),
+	.MUX_Output(ALUSrcOrShamt_wire)
+);
+
+
 ALUControl
 ArithmeticLogicUnitControl
 (
@@ -196,13 +221,12 @@ ArithmeticLogicUnitControl
 );
 
 
-
 ALU
 ArithmeticLogicUnit 
 (
 	.ALUOperation(ALUOperation_wire),
 	.A(ReadData1_wire),
-	.B(ReadData2OrInmmediate_wire),
+	.B(ALUSrcOrShamt_wire),
 	.Zero(Zero_wire),
 	.ALUResult(ALUResult_wire)
 );
