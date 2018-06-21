@@ -25,7 +25,7 @@ localparam R_Type_SRL		= 9'b111_000010;
 localparam R_Type_ADD		= 9'b111_100000;
 localparam R_Type_SUB		= 9'b111_100010;
 localparam R_Type_AND		= 9'b111_100100;
-localparam R_Type_OR		= 9'b111_100101;
+localparam R_Type_OR		   = 9'b111_100101;
 localparam R_Type_XOR		= 9'b111_100110;
 localparam R_Type_NOR		= 9'b111_100111;
 localparam I_Type_LUI		= 9'b110_xxxxxx;
@@ -41,29 +41,29 @@ assign Selector = {ALUOp, ALUFunction};
 
 always@(Selector)begin
 	casex(Selector)
-		R_Type_AND:		ALUControlValues = 4'b0000;
+		R_Type_AND:		ALUControlValues = 4'b0000; //AND:   9'b111_100100
 
-		I_Type_ORI:		ALUControlValues = 4'b0001;
-		R_Type_OR: 		ALUControlValues = 4'b0001;
+		I_Type_ORI:		ALUControlValues = 4'b0001; //ORI:   9'b101_xxxxxx
+		R_Type_OR: 		ALUControlValues = 4'b0001; //OR:    9'b111_100101
 		
-		R_Type_NOR:		ALUControlValues = 4'b0010;
+		R_Type_NOR:		ALUControlValues = 4'b0010; //NOR:   9'b111_100111
 		
-		R_Type_ADD:		ALUControlValues = 4'b0011;
-		I_Type_ADDI:	ALUControlValues = 4'b0011;
+		R_Type_ADD:		ALUControlValues = 4'b0011; //ADD:   9'b111_100000
+		I_Type_ADDI:	ALUControlValues = 4'b0011; //ADDI:  9'b100_xxxxxx
 		
-		R_Type_SUB:		ALUControlValues = 4'b0100;
+		R_Type_SUB:		ALUControlValues = 4'b0100; //SUB:   9'b111_100010
 
-		R_Type_XOR:		ALUControlValues = 4'b0101;
-		I_Type_BEQ_BNE:	ALUControlValues = 4'b0101;
+		R_Type_XOR:		ALUControlValues = 4'b0101; //XOR:   9'b111_100110
+		I_Type_BEQ_BNE:ALUControlValues = 4'b0101; //BRANCH:9'b011_xxxxxx
 		
-		I_Type_LW_SW:	ALUControlValues = 4'b0110;
+		I_Type_LW_SW:	ALUControlValues = 4'b0110; //WORD:  9'b010_xxxxxx
 
-		I_Type_LUI:		ALUControlValues = 4'b0111;
+		I_Type_LUI:		ALUControlValues = 4'b0111; //LUI:   9'b110_xxxxxx
 		
-		R_Type_SLL:		ALUControlValues = 4'b1000;
-		R_Type_SRL:		ALUControlValues = 4'b1001;
+		R_Type_SLL:		ALUControlValues = 4'b1000; //SLL:   9'b111_000000
+		R_Type_SRL:		ALUControlValues = 4'b1001; //SRL:   9'b111_000010
 		
-		default:		ALUControlValues = 4'b1111;
+		default:		   ALUControlValues = 4'b1111;
 	endcase
 end
 
