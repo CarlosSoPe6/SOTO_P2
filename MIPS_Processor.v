@@ -59,6 +59,7 @@ wire MemWrite_wire;
 wire MemRead_wire;
 wire MemtoReg_wire;
 wire ShamtSelector_wire;
+wire JumpControl_wire;
 
 wire Zero_wire;
 wire [2:0] ALUOp_wire;
@@ -73,6 +74,8 @@ wire [31:0] ShamtExtend_wire;
 wire [31:0] ReadData2OrInmmediate_wire;
 wire [31:0] RegisterOrShamt_wire;
 wire [31:0] ALUResult_wire;
+wire [31:0] JumpAddress_wire;
+wire [31:0] PC_New_Value_wire; 
 wire [31:0] PC_4_wire;
 wire [31:0] InmmediateExtendAnded_wire;
 wire [31:0] PCtoBranch_wire;
@@ -100,7 +103,8 @@ ControlUnit
 	.MemWrite(MemWrite_wire),
 	.MemRead(MemRead_wire),
 	.MemtoReg(MemtoReg_wire),
-	.ShamtSelector(ShamtSelector_wire)
+	.ShamtSelector(ShamtSelector_wire),
+	.JumpControl(JumpControl_wire)
 );
 
 
@@ -108,7 +112,7 @@ PC_Register
 ProgramCounter(
 	.clk(clk),
 	.reset(reset),
-	.NewPC(PC_4_wire),
+	.NewPC(PC_New_Value_wire),
 	.PCValue(PC_wire)
 );
 
@@ -241,7 +245,8 @@ RAM_Memory
 	.Address(ALUResultOut),
 	.MemWrite(MemWrite_wire),
 	.MemRead(MemRead_wire),
-	.ReadData(MemoryData_wire)
+	.ReadData(MemoryData_wire),
+	.clk(clk)
 );
 
 Multiplexer2to1
@@ -254,6 +259,25 @@ MuxForReadMemoryOrALU
 	.MUX_Data0(ALUResultOut),
 	.MUX_Data1(MemoryData_wire),
 	.MUX_Output(MemoryDataOrALU_wire)
+);
+
+ShiftLeft2
+JumpShifter
+(
+	.DataInput(Instruction_wire[25:0]),
+	.DataOutput(JumpAddress_wire)
+);
+
+Multiplexer2to1
+#(
+	.NBits(32)
+)
+MuxForNextPcOrJump
+(
+	.Selector(JumpControl_wire),
+	.MUX_Output(PC_New_Value_wire),
+	.MUX_Data0(PC_4_wire),
+	.MUX_Data1(JumpAddress_wire)
 );
 
 assign ALUResultOut = ALUResult_wire;
