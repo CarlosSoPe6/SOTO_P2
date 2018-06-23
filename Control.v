@@ -63,8 +63,8 @@ always@(OP or Function) begin
 		I_Type_SW:		ControlValues= 13'b0_01_100_01_00_100;
 		I_Type_J:		ControlValues= 13'b1_00_000_00_00_000;
 		I_Type_JAL:		ControlValues= 13'b0_xx_xxx_xx_xx_xxx;
-		I_Type_BEQ:		ControlValues= 13'b0_xx_xxx_xx_xx_xxx;
-		I_Type_BNE:		ControlValues= 13'b0_xx_xxx_xx_xx_xxx;
+		I_Type_BEQ:		ControlValues= 13'b0_00_000_00_01_000;
+		I_Type_BNE:		ControlValues= 13'b0_00_000_00_10_000;
 		default:
 			ControlValues= 12'b000000000000;
 	endcase

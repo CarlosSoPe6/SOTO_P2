@@ -18,8 +18,6 @@ module BranchModule(
     output BranchControlSignal  
 );
 
-always @(BEQControl or BNEControl or Zero) begin
-    assign BranchControlSignal = (BEQControl & Zero) | (BNEControl & ~Zero);  
-end
+assign BranchControlSignal = (BEQControl & Zero) | (BNEControl & ~Zero);  
 
 endmodule // BranchModule
