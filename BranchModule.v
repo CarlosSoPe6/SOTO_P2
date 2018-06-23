@@ -13,7 +13,8 @@
 module BranchModule(
     input BEQControl,
     input BNEControl,
-    input ZeroSignal,
+    input Zero,
+    
     output BranchControlSignal  
 );
 
