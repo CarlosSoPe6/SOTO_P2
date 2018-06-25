@@ -276,7 +276,7 @@ MuxForNextPcOrJump
 	.Selector(JumpControl_wire),
 	.MUX_Output(PC_New_Value_wire),
 	.MUX_Data0(PCOrBranch_wire),
-	.MUX_Data1(JumpAddress_wire)
+	.MUX_Data1({PC_4_wire[31:28], JumpAddress_wire[27:0]})
 );
 
 BranchModule
