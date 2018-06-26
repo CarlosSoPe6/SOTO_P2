@@ -125,7 +125,7 @@ ProgramCounter(
 );
 
 Adder32bits
-PC_Minus_40000
+PC_Minus_40k
 (
 	.Data0(PC_Wire),
 	.Data1(TEXT_BASE),
@@ -147,7 +147,6 @@ PC_Puls_4
 (
 	.Data0(PC_wire),
 	.Data1(4),
-	
 	.Result(PC_4_wire)
 );
 
