@@ -86,6 +86,7 @@ wire [31:0] PCOrBranch_wire;
 wire [31:0] MemoryData_wire;
 wire [31:0] MemoryDataOrALU_wire;
 wire [31:0] Real_Data_Address_wire;
+wire [31:0] New_ALUMemOrPC_wire;
 integer ALUStatus;
 
 
