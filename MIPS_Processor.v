@@ -168,7 +168,7 @@ MUX_ForRegisterOrPC
 	.MUX_Data0(RegisterOrShamt_wire),
 	.MUX_Data1(PC_New_Value_wire),
 	
-	.MUX_Output(PCOrReg_New_Value_wire;)
+	.MUX_Output(PCOrReg_New_Value_wire)
 
 );
 
@@ -180,10 +180,10 @@ Multiplexer2to1
 MUX_ForALUMemOrPC
 (
 	.Selector(ALUMemOrPC_wire),
-	.MUX_Data0(),
-	.MUX_Data1(),
+	.MUX_Data0(MemoryDataOrALU_wire),
+	.MUX_Data1(PCOrReg_New_Value_wire),
 	
-	.MUX_Output()
+	.MUX_Output(New_ALUMemOrPC_wire)
 
 );
 
@@ -213,7 +213,7 @@ Register_File
 	.WriteRegister(WriteRegister_wire),
 	.ReadRegister1(Instruction_wire[25:21]),
 	.ReadRegister2(Instruction_wire[20:16]),
-	.WriteData(MemoryDataOrALU_wire),
+	.WriteData(New_ALUMemOrPC_wire),
 	.ReadData1(ReadData1_wire),
 	.ReadData2(ReadData2_wire)
 );
