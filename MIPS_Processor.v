@@ -39,6 +39,10 @@ module MIPS_Processor
 	output [31:0] ALUResultOut,
 	output [31:0] PortOut
 );
+
+localparam TEXT_BASE 	= 32'hFFFC_0000;
+localparam RAM_BASE 	= 32'hEFFF_8000;
+
 //******************************************************************/
 //******************************************************************/
 assign  PortOut = 0;
@@ -65,6 +69,7 @@ wire [2:0] ALUOp_wire;
 wire [3:0] ALUOperation_wire;
 wire [4:0] WriteRegister_wire;
 wire [31:0] PC_wire;
+wire [31:0] Real_PC_Wire;
 wire [31:0] Instruction_wire;
 wire [31:0] ReadData1_wire;
 wire [31:0] ReadData2_wire;
@@ -115,13 +120,21 @@ ProgramCounter(
 	.PCValue(PC_wire)
 );
 
+Adder32bits
+PC_Minus_40000
+(
+	.Data0(PC_Wire),
+	.Data1(TEXT_BASE),
+	.Result(Real_PC_Wire)
+);
+
 ProgramMemory
 #(
 	.MEMORY_DEPTH(MEMORY_DEPTH)
 )
 ROMProgramMemory
 (
-	.Address(PC_wire),
+	.Address(Real_PC_Wire),
 	.Instruction(Instruction_wire)
 );
 
