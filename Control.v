@@ -39,11 +39,11 @@ localparam I_Type_BNE		= 6'h05;
 localparam I_Type_ADDI		= 6'h08;
 localparam I_Type_ORI		= 6'h0d;
 localparam I_Type_LUI		= 6'h0f;
-localparam I_Type_LW		= 6'h23;
-localparam I_Type_SW		= 6'h2b;
+localparam I_Type_LW		   = 6'h23;
+localparam I_Type_SW		   = 6'h2b;
 
 
-localparam Func_Shift_Left	= 6'b00_0000;
+localparam Func_Shift_Left	   = 6'b00_0000;
 localparam Func_Shift_Right	= 6'b00_0010;
 localparam Func_Jump_Register = 6'b00_1000;
 
@@ -54,23 +54,23 @@ always@(OP or Function) begin
 		R_Type_Default:
 			case (Function)
 			  	Func_Shift_Left: 
-			  		ControlValues= 13'b0_11_001_00_00_111;
+			  		ControlValues= 15'b000_11_001_00_00_111;
 				Func_Shift_Right: 
-			  		ControlValues= 13'b0_11_001_00_00_111;
+			  		ControlValues= 15'b000_11_001_00_00_111;
 			  	default: 
-			  		ControlValues= 13'b0_01_001_00_00_111;
+			  		ControlValues= 15'b010_00_000_00_00_000;
 			endcase
-		I_Type_ADDI:	ControlValues= 13'b0_00_101_00_00_100;
-		I_Type_ORI:		ControlValues= 13'b0_00_101_00_00_101;
-		I_Type_LUI:		ControlValues= 13'b0_00_101_00_00_110;
-		I_Type_LW:		ControlValues= 13'b0_01_101_10_00_100;
-		I_Type_SW:		ControlValues= 13'b0_01_100_01_00_100;
-		J_Type_J:		ControlValues= 13'b1_00_000_00_00_000;
-		J_Type_JAL:		ControlValues= 13'b0_xx_xxx_xx_xx_xxx;
-		I_Type_BEQ:		ControlValues= 13'b0_00_000_00_01_000;
-		I_Type_BNE:		ControlValues= 13'b0_00_000_00_10_000;
+		I_Type_ADDI:	ControlValues= 15'b000_00_101_00_00_100;
+		I_Type_ORI:		ControlValues= 15'b000_00_101_00_00_101;
+		I_Type_LUI:		ControlValues= 15'b000_00_101_00_00_110;
+		I_Type_LW:		ControlValues= 15'b000_01_101_10_00_100;
+		I_Type_SW:		ControlValues= 15'b000_01_100_01_00_100;
+		J_Type_J:		ControlValues= 15'b001_00_000_00_00_000;
+		J_Type_JAL:		ControlValues= 15'b101_00_000_00_00_000;
+		I_Type_BEQ:		ControlValues= 15'b000_00_000_00_01_000;
+		I_Type_BNE:		ControlValues= 15'b000_00_000_00_10_000;
 		default:
-			ControlValues= 14'b00000000000000;
+			ControlValues= 15'b000000000000000;
 	endcase
 end	
 assign ALUMemOrPC = ControlValues[14];	
