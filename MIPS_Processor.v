@@ -1,4 +1,4 @@
-﻿/******************************************************************
+/******************************************************************
 * Description
 *	This is the top-level of a MIPS processor that can execute the next set of instructions:
 *		add
@@ -158,7 +158,7 @@ PC_Puls_4
 
 Multiplexer2to1
 #(
-	.NBits(5)
+	.NBits(31)
 )
 MUX_ForRegisterOrPC
 (
@@ -173,7 +173,7 @@ MUX_ForRegisterOrPC
 
 Multiplexer2to1
 #(
-	.NBits(5)
+	.NBits(31)
 )
 MUX_ForALUMemOrPC
 (
