@@ -16,12 +16,9 @@ module Control
 	input [5:0]OP,
 	input [5:0]Function,
 	
-<<<<<<< HEAD
 	output ALUMemOrPC,
 	output RegisterOrPC,
-=======
 	output JumpControl,
->>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 	output ShamtSelector,
 	output RegDst,
 	output BranchEQ,
@@ -72,7 +69,6 @@ always@(OP or Function) begin
 		I_Type_JAL:		ControlValues= 13'b0_xx_xxx_xx_xx_xxx;
 		I_Type_BEQ:		ControlValues= 13'b0_00_000_00_01_000;
 		I_Type_BNE:		ControlValues= 13'b0_00_000_00_10_000;
->>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 		default:
 			ControlValues= 14'b00000000000000;
 	endcase
