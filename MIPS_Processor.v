@@ -1,4 +1,4 @@
-/******************************************************************
+﻿/******************************************************************
 * Description
 *	This is the top-level of a MIPS processor that can execute the next set of instructions:
 *		add
@@ -39,9 +39,6 @@ module MIPS_Processor
 	output [31:0] ALUResultOut,
 	output [31:0] PortOut
 );
-
-localparam TEXT_BASE 	= 32'hFFFC_0000;
-localparam RAM_BASE 	= 32'hEFFF_8000;
 
 //******************************************************************/
 //******************************************************************/
@@ -88,6 +85,7 @@ wire [31:0] InmmediateExtendAnded_wire;
 wire [31:0] PCOrBranch_wire;
 wire [31:0] MemoryData_wire;
 wire [31:0] MemoryDataOrALU_wire;
+wire [31:0] Real_Data_Address_wire;
 integer ALUStatus;
 
 
@@ -281,6 +279,14 @@ ArithmeticLogicUnit
 	.ALUResult(ALUResult_wire)
 );
 
+Adder32bits
+Data_Memory_Calculator
+(
+	.Data0(ALUResultOut),
+	.Data1(32'hEFFF_8000),
+	.Result(Real_Data_Address_wire)
+);
+
 DataMemory
 #(
 	.DATA_WIDTH(32),
@@ -289,7 +295,7 @@ DataMemory
 RAM_Memory
 (
 	.WriteData(ReadData2_wire),
-	.Address(ALUResultOut),
+	.Address(Real_Data_Address_wire),
 	.MemWrite(MemWrite_wire),
 	.MemRead(MemRead_wire),
 	.ReadData(MemoryData_wire),
