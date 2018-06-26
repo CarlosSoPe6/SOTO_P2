@@ -111,7 +111,7 @@ ControlUnit
 	.MemtoReg(MemtoReg_wire),
 	.ShamtSelector(ShamtSelector_wire),
 	.RegisterOrPC(RegisterOrPC_wire),
-	.ALUMemOrPC(ALUMemOrPC_wire)
+	.ALUMemOrPC(ALUMemOrPC_wire),
 	.JumpControl(JumpControl_wire)
 );
 
