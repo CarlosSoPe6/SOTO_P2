@@ -1,4 +1,4 @@
-/******************************************************************
+﻿/******************************************************************
 * Description
 *	This is control unit for the MIPS processor. The control unit is 
 *	in charge of generation of the control signals. Its only input 
@@ -16,7 +16,12 @@ module Control
 	input [5:0]OP,
 	input [5:0]Function,
 	
+<<<<<<< HEAD
+	output ALUMemOrPC,
+	output RegisterOrPC,
+=======
 	output JumpControl,
+>>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 	output ShamtSelector,
 	output RegDst,
 	output BranchEQ,
@@ -30,8 +35,8 @@ module Control
 );
 
 localparam R_Type_Default	= 0;
-localparam I_Type_J			= 6'h02;
-localparam I_Type_JAL		= 6'h03;
+localparam J_Type_J			= 6'h02;
+localparam J_Type_JAL		= 6'h03;
 localparam I_Type_BEQ		= 6'h04;
 localparam I_Type_BNE		= 6'h05;
 localparam I_Type_ADDI		= 6'h08;
@@ -40,10 +45,12 @@ localparam I_Type_LUI		= 6'h0f;
 localparam I_Type_LW		= 6'h23;
 localparam I_Type_SW		= 6'h2b;
 
+
 localparam Func_Shift_Left	= 6'b00_0000;
 localparam Func_Shift_Right	= 6'b00_0010;
+localparam Func_Jump_Register = 6'b00_1000;
 
-reg [12:0] ControlValues;
+reg [14:0] ControlValues;
 
 always@(OP or Function) begin
 	case(OP)
@@ -65,11 +72,13 @@ always@(OP or Function) begin
 		I_Type_JAL:		ControlValues= 13'b0_xx_xxx_xx_xx_xxx;
 		I_Type_BEQ:		ControlValues= 13'b0_00_000_00_01_000;
 		I_Type_BNE:		ControlValues= 13'b0_00_000_00_10_000;
+>>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 		default:
-			ControlValues= 12'b000000000000;
+			ControlValues= 14'b00000000000000;
 	endcase
 end	
-
+assign ALUMemOrPC = ControlValues[14];	
+assign RegisterOrPC = ControlValues[13];
 assign JumpControl = ControlValues[12];
 assign ShamtSelector = ControlValues[11];	
 assign RegDst = ControlValues[10];

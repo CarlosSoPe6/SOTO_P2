@@ -62,7 +62,12 @@ wire MemWrite_wire;
 wire MemRead_wire;
 wire MemtoReg_wire;
 wire ShamtSelector_wire;
+<<<<<<< HEAD
+wire RegisterOrPC_wire;
+wire ALUMemOrPC_wire;
+=======
 wire JumpControl_wire;
+>>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 
 wire Zero_wire;
 wire [2:0] ALUOp_wire;
@@ -108,7 +113,12 @@ ControlUnit
 	.MemRead(MemRead_wire),
 	.MemtoReg(MemtoReg_wire),
 	.ShamtSelector(ShamtSelector_wire),
+<<<<<<< HEAD
+	.RegisterOrPC(RegisterOrPC_wire),
+	.ALUMemOrPC(ALUMemOrPC_wire)
+=======
 	.JumpControl(JumpControl_wire)
+>>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 );
 
 
