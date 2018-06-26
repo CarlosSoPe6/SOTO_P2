@@ -1,4 +1,4 @@
-﻿/******************************************************************
+/******************************************************************
 * Description
 *	This is the top-level of a MIPS processor that can execute the next set of instructions:
 *		add
