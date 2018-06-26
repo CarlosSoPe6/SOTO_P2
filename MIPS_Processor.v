@@ -49,9 +49,8 @@ assign  PortOut = 0;
 wire BranchNE_wire;
 wire BranchEQ_wire;
 wire RegDst_wire;
-wire NotZeroANDBrachNE;
-wire ZeroANDBrachEQ;
-wire ORForBranch;
+wire BranchControl_wire;
+
 // Control Unit wires
 wire ALUSrc_wire;
 wire RegWrite_wire;
@@ -59,8 +58,12 @@ wire MemWrite_wire;
 wire MemRead_wire;
 wire MemtoReg_wire;
 wire ShamtSelector_wire;
+<<<<<<< HEAD
 wire RegisterOrPC_wire;
 wire ALUMemOrPC_wire;
+=======
+wire JumpControl_wire;
+>>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 
 wire Zero_wire;
 wire [2:0] ALUOp_wire;
@@ -75,9 +78,11 @@ wire [31:0] ShamtExtend_wire;
 wire [31:0] ReadData2OrInmmediate_wire;
 wire [31:0] RegisterOrShamt_wire;
 wire [31:0] ALUResult_wire;
+wire [31:0] JumpAddress_wire;
+wire [31:0] PC_New_Value_wire; 
 wire [31:0] PC_4_wire;
 wire [31:0] InmmediateExtendAnded_wire;
-wire [31:0] PCtoBranch_wire;
+wire [31:0] PCOrBranch_wire;
 wire [31:0] MemoryData_wire;
 wire [31:0] MemoryDataOrALU_wire;
 integer ALUStatus;
@@ -103,8 +108,12 @@ ControlUnit
 	.MemRead(MemRead_wire),
 	.MemtoReg(MemtoReg_wire),
 	.ShamtSelector(ShamtSelector_wire),
+<<<<<<< HEAD
 	.RegisterOrPC(RegisterOrPC_wire),
 	.ALUMemOrPC(ALUMemOrPC_wire)
+=======
+	.JumpControl(JumpControl_wire)
+>>>>>>> a975bddc779656a17617efbdb9211b2be9060b20
 );
 
 
@@ -112,7 +121,7 @@ PC_Register
 ProgramCounter(
 	.clk(clk),
 	.reset(reset),
-	.NewPC(PC_4_wire),
+	.NewPC(PC_New_Value_wire),
 	.PCValue(PC_wire)
 );
 
@@ -245,7 +254,8 @@ RAM_Memory
 	.Address(ALUResultOut),
 	.MemWrite(MemWrite_wire),
 	.MemRead(MemRead_wire),
-	.ReadData(MemoryData_wire)
+	.ReadData(MemoryData_wire),
+	.clk(clk)
 );
 
 Multiplexer2to1
@@ -258,6 +268,46 @@ MuxForReadMemoryOrALU
 	.MUX_Data0(ALUResultOut),
 	.MUX_Data1(MemoryData_wire),
 	.MUX_Output(MemoryDataOrALU_wire)
+);
+
+ShiftLeft2
+JumpShifter
+(
+	.DataInput(Instruction_wire[25:0]),
+	.DataOutput(JumpAddress_wire)
+);
+
+Multiplexer2to1
+#(
+	.NBits(32)
+)
+MuxForNextPcOrJump
+(
+	.Selector(JumpControl_wire),
+	.MUX_Output(PC_New_Value_wire),
+	.MUX_Data0(PCOrBranch_wire),
+	.MUX_Data1({PC_4_wire[31:28], JumpAddress_wire[27:0]})
+);
+
+BranchModule
+BranchController
+(
+	.Zero(Zero_wire),
+	.BNEControl(BranchNE_wire),
+	.BEQControl(BranchEQ_wire),
+	.BranchControlSignal(BranchControl_wire)
+);
+
+Multiplexer2to1
+#(
+	.NBits(32)
+)
+MuxForNextPcOrBranch
+(
+	.Selector(BranchControl_wire),
+	.MUX_Output(PCOrBranch_wire),
+	.MUX_Data0(PC_4_wire),
+	.MUX_Data1(InmmediateExtend_wire)
 );
 
 assign ALUResultOut = ALUResult_wire;

@@ -34,8 +34,8 @@ localparam SUB 	= 4'b0100;
 localparam XOR 	= 4'b0101;
 localparam WORD	= 4'b0110;
 localparam LUI 	= 4'b0111;
-localparam SLL		= 4'b1000;
-localparam SRL		= 4'b1001;
+localparam SLL	= 4'b1000;
+localparam SRL	= 4'b1001;
    
    always @ (A or B or ALUOperation)
      begin
