@@ -125,7 +125,7 @@ ProgramCounter(
 );
 
 Adder32bits
-PC_Minus_40k
+PC_Minus_h40k
 (
 	.Data0(PC_Wire),
 	.Data1(TEXT_BASE),
