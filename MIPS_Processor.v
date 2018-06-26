@@ -59,6 +59,8 @@ wire MemWrite_wire;
 wire MemRead_wire;
 wire MemtoReg_wire;
 wire ShamtSelector_wire;
+wire RegisterOrPC_wire;
+wire ALUMemOrPC_wire;
 
 wire Zero_wire;
 wire [2:0] ALUOp_wire;
@@ -100,7 +102,9 @@ ControlUnit
 	.MemWrite(MemWrite_wire),
 	.MemRead(MemRead_wire),
 	.MemtoReg(MemtoReg_wire),
-	.ShamtSelector(ShamtSelector_wire)
+	.ShamtSelector(ShamtSelector_wire),
+	.RegisterOrPC(RegisterOrPC_wire),
+	.ALUMemOrPC(ALUMemOrPC_wire)
 );
 
 
