@@ -86,6 +86,7 @@ wire [31:0] PCOrBranch_wire;
 wire [31:0] MemoryData_wire;
 wire [31:0] MemoryDataOrALU_wire;
 wire [31:0] Real_Data_Address_wire;
+wire [31:0] New_ALUMemOrPC_wire;
 integer ALUStatus;
 
 
@@ -158,7 +159,7 @@ PC_Puls_4
 
 Multiplexer2to1
 #(
-	.NBits(5)
+	.NBits(32)
 )
 MUX_ForRegisterOrPC
 (
@@ -173,7 +174,7 @@ MUX_ForRegisterOrPC
 
 Multiplexer2to1
 #(
-	.NBits(5)
+	.NBits(32)
 )
 MUX_ForALUMemOrPC
 (
