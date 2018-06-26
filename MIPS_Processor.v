@@ -158,7 +158,7 @@ PC_Puls_4
 
 Multiplexer2to1
 #(
-	.NBits(31)
+	.NBits(32)
 )
 MUX_ForRegisterOrPC
 (
@@ -173,7 +173,7 @@ MUX_ForRegisterOrPC
 
 Multiplexer2to1
 #(
-	.NBits(31)
+	.NBits(32)
 )
 MUX_ForALUMemOrPC
 (
