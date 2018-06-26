@@ -81,7 +81,8 @@ wire [31:0] ReadData2OrInmmediate_wire;
 wire [31:0] RegisterOrShamt_wire;
 wire [31:0] ALUResult_wire;
 wire [31:0] JumpAddress_wire;
-wire [31:0] PC_New_Value_wire; 
+wire [31:0] PC_New_Value_wire;
+wire [31:0] PCOrReg_New_Value_wire; 
 wire [31:0] PC_4_wire;
 wire [31:0] InmmediateExtendAnded_wire;
 wire [31:0] PCOrBranch_wire;
@@ -120,7 +121,7 @@ PC_Register
 ProgramCounter(
 	.clk(clk),
 	.reset(reset),
-	.NewPC(PC_New_Value_wire),
+	.NewPC(PCOrReg_New_Value_wire),
 	.PCValue(PC_wire)
 );
 
@@ -156,6 +157,37 @@ PC_Puls_4
 //******************************************************************/
 //******************************************************************/
 //******************************************************************/
+
+Multiplexer2to1
+#(
+	.NBits(5)
+)
+MUX_ForRegisterOrPC
+(
+	.Selector(RegisterOrPC_wire),
+	.MUX_Data0(RegisterOrShamt_wire),
+	.MUX_Data1(PC_New_Value_wire),
+	
+	.MUX_Output(PCOrReg_New_Value_wire;)
+
+);
+
+
+Multiplexer2to1
+#(
+	.NBits(5)
+)
+MUX_ForALUMemOrPC
+(
+	.Selector(ALUMemOrPC_wire),
+	.MUX_Data0(),
+	.MUX_Data1(),
+	
+	.MUX_Output()
+
+);
+
+
 Multiplexer2to1
 #(
 	.NBits(5)
