@@ -164,8 +164,8 @@ Multiplexer2to1
 MUX_ForRegisterOrPC
 (
 	.Selector(RegisterOrPC_wire),
-	.MUX_Data0(RegisterOrShamt_wire),
-	.MUX_Data1(PC_New_Value_wire),
+	.MUX_Data0(PC_New_Value_wire),
+	.MUX_Data1(RegisterOrShamt_wire),
 	
 	.MUX_Output(PCOrReg_New_Value_wire)
 
@@ -179,8 +179,8 @@ Multiplexer2to1
 MUX_ForALUMemOrPC
 (
 	.Selector(ALUMemOrPC_wire),
-	.MUX_Data0(MemoryDataOrALU_wire),
-	.MUX_Data1(PCOrReg_New_Value_wire),
+	.MUX_Data0(PCOrReg_New_Value_wire),
+	.MUX_Data1(MemoryDataOrALU_wire),
 	
 	.MUX_Output(New_ALUMemOrPC_wire)
 
