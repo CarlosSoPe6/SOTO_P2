@@ -58,7 +58,7 @@ always@(OP or Function) begin
 				Func_Shift_Right: 
 			  		ControlValues= 15'b000_11_001_00_00_111;
 				Func_Jump_Register:
-					ControlValues= 15'b010_00_001_00_00_000;	
+					ControlValues= 15'b010_00_000_00_00_000;	
 			  	default: 
 			  		ControlValues= 15'b000_01_001_00_00_111;
 			endcase
@@ -68,7 +68,7 @@ always@(OP or Function) begin
 		I_Type_LW:		ControlValues= 15'b000_01_101_10_00_100;
 		I_Type_SW:		ControlValues= 15'b000_01_100_01_00_100;
 		J_Type_J:		ControlValues= 15'b001_00_000_00_00_000;
-		J_Type_JAL:		ControlValues= 15'b101_00_000_00_00_000;
+		J_Type_JAL:		ControlValues= 15'b101_00_001_00_00_000;
 		I_Type_BEQ:		ControlValues= 15'b000_00_000_00_01_011;
 		I_Type_BNE:		ControlValues= 15'b000_00_000_00_10_011;
 		default:
