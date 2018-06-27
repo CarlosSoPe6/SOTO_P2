@@ -22,7 +22,7 @@ add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/MemRead
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/MemtoReg
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/MemWrite
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/ALUSrc
-add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/RegWrite
+add wave -noupdate -group Ctrl -color Red -height 30 /MIPS_Processor_TB/DUV/ControlUnit/RegWrite
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/ALUOp
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/ControlValues
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/Control
@@ -54,12 +54,11 @@ add wave -noupdate /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/Selector
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/MUX_Data0
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/MUX_Data1
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/MUX_Output
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/ReadRegister1
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/ReadRegister2
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/Register_ra/DataInput
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/Register_ra/DataOutput
+add wave -noupdate -divider REG
+add wave -noupdate -radix unsigned /MIPS_Processor_TB/DUV/Register_File/RegWrite
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/WriteRegister
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {50 ps} 0}
+WaveRestoreCursors {{Cursor 1} {30 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -75,4 +74,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {21 ps} {53 ps}
+WaveRestoreZoom {23 ps} {55 ps}
