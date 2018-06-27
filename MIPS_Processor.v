@@ -67,6 +67,7 @@ wire Zero_wire;
 wire [2:0] ALUOp_wire;
 wire [3:0] ALUOperation_wire;
 wire [4:0] WriteRegister_wire;
+wire [4:0] New_WriteRegister_wire;
 wire [31:0] PC_wire;
 wire [31:0] Real_PC_Wire;
 wire [31:0] Instruction_wire;
@@ -183,6 +184,20 @@ MUX_ForALUMemOrPC
 	.MUX_Data1(PCOrReg_New_Value_wire),
 	
 	.MUX_Output(New_ALUMemOrPC_wire)
+
+);
+
+Multiplexer2to1
+#(
+	.NBits(5)
+)
+MUX_NewWriteRegister
+(
+	.Selector(ALUMemOrPC_wire),
+	.MUX_Data0(WriteRegister_wire),
+	.MUX_Data1(31),
+	
+	.MUX_Output(New_WriteRegister_wire)
 
 );
 
