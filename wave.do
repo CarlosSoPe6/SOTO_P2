@@ -8,8 +8,9 @@ add wave -noupdate -radix decimal /MIPS_Processor_TB/PortIn
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/ALUResultOut
 add wave -noupdate -radix decimal /MIPS_Processor_TB/PortOut
 add wave -noupdate -divider ROM
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/PC_wire
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ROMProgramMemory/Address
-add wave -noupdate -color Yellow -radix hexadecimal /MIPS_Processor_TB/DUV/ROMProgramMemory/Instruction
+add wave -noupdate -color Yellow -height 30 -radix hexadecimal /MIPS_Processor_TB/DUV/ROMProgramMemory/Instruction
 add wave -noupdate -divider Control
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/OP
 add wave -noupdate -group Ctrl /MIPS_Processor_TB/DUV/ControlUnit/Function
@@ -48,8 +49,17 @@ add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_ForALUMemOrPC/S
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_ForALUMemOrPC/MUX_Data0
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_ForALUMemOrPC/MUX_Data1
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_ForALUMemOrPC/MUX_Output
+add wave -noupdate -divider MUX_NEW_REG
+add wave -noupdate /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/Selector
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/MUX_Data0
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/MUX_Data1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/MUX_NewWriteRegister/MUX_Output
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/ReadRegister1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/ReadRegister2
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/Register_ra/DataInput
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/Register_File/Register_ra/DataOutput
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {0 ps} 0}
+WaveRestoreCursors {{Cursor 1} {50 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -65,4 +75,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {32 ps}
+WaveRestoreZoom {21 ps} {53 ps}

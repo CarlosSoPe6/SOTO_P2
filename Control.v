@@ -58,7 +58,7 @@ always@(OP or Function) begin
 				Func_Shift_Right: 
 			  		ControlValues= 15'b000_11_001_00_00_111;
 				Func_Jump_Register:
-					ControlValues= 15'b010_00_000_00_00_000;	
+					ControlValues= 15'b010_00_001_00_00_000;	
 			  	default: 
 			  		ControlValues= 15'b000_01_001_00_00_111;
 			endcase
