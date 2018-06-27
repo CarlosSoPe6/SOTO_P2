@@ -25,7 +25,7 @@ localparam R_Type_SRL		= 9'b111_000010;
 localparam R_Type_ADD		= 9'b111_100000;
 localparam R_Type_SUB		= 9'b111_100010;
 localparam R_Type_AND		= 9'b111_100100;
-localparam R_Type_OR		   = 9'b111_100101;
+localparam R_Type_OR		= 9'b111_100101;
 localparam R_Type_XOR		= 9'b111_100110;
 localparam R_Type_NOR		= 9'b111_100111;
 localparam I_Type_LUI		= 9'b110_xxxxxx;
@@ -54,7 +54,7 @@ always@(Selector)begin
 		R_Type_SUB:		ALUControlValues = 4'b0100; //SUB:   9'b111_100010
 
 		R_Type_XOR:		ALUControlValues = 4'b0101; //XOR:   9'b111_100110
-		I_Type_BEQ_BNE:ALUControlValues = 4'b0101; //BRANCH:9'b011_xxxxxx
+		I_Type_BEQ_BNE:	ALUControlValues = 4'b0101; //BRANCH:9'b011_xxxxxx
 		
 		I_Type_LW_SW:	ALUControlValues = 4'b0110; //WORD:  9'b010_xxxxxx
 
