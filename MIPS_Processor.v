@@ -180,8 +180,8 @@ Multiplexer2to1
 MUX_ForALUMemOrPC
 (
 	.Selector(ALUMemOrPC_wire),
-	.MUX_Data0(PCOrReg_New_Value_wire),
-	.MUX_Data1(MemoryDataOrALU_wire),
+	.MUX_Data0(MemoryDataOrALU_wire),
+	.MUX_Data1(PCOrReg_New_Value_wire),
 	
 	.MUX_Output(New_ALUMemOrPC_wire)
 
@@ -299,7 +299,7 @@ Adder32bits
 Data_Memory_Calculator
 (
 	.Data0(ALUResultOut),
-	.Data1(32'hEFFF_8000),
+	.Data1(32'hF000_0000),
 	.Result(Real_Data_Address_wire)
 );
 
