@@ -299,14 +299,14 @@ Adder32bits
 Data_Memory_Calculator
 (
 	.Data0(ALUResultOut),
-	.Data1(32'hF000_0000),
+	.Data1(32'hEFFF_0000),
 	.Result(Real_Data_Address_wire)
 );
 
 DataMemory
 #(
 	.DATA_WIDTH(32),
-	.MEMORY_DEPTH(1024)
+	.MEMORY_DEPTH(MEMORY_DEPTH)
 )
 RAM_Memory
 (
