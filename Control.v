@@ -65,8 +65,8 @@ always@(OP or Function) begin
 		I_Type_ADDI:	ControlValues= 15'b000_00_101_00_00_100;
 		I_Type_ORI:		ControlValues= 15'b000_00_101_00_00_101;
 		I_Type_LUI:		ControlValues= 15'b000_00_101_00_00_110;
-		I_Type_LW:		ControlValues= 15'b000_00_111_10_00_100;
-		I_Type_SW:		ControlValues= 15'b000_01_100_01_00_100;
+		I_Type_LW:		ControlValues= 15'b000_00_111_10_00_010;
+		I_Type_SW:		ControlValues= 15'b000_01_100_01_00_010;
 		J_Type_J:		ControlValues= 15'b001_00_000_00_00_000;
 		J_Type_JAL:		ControlValues= 15'b101_00_001_00_00_000;
 		I_Type_BEQ:		ControlValues= 15'b000_00_000_00_01_011;

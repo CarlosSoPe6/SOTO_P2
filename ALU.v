@@ -55,7 +55,7 @@ localparam SRL	= 4'b1001;
 			LUI:                       //LUI: 4'b0111
 				ALUResult= {B, 16'b0};
 			WORD:                      //WORD:4'b0110
-				ALUResult= A + B;
+				ALUResult= (A + B) >> 2;
 			SLL:	                     //SLL: 4'b1000
 				ALUResult= B << A;
 			SRL:                       //SRL: 4'b1001
