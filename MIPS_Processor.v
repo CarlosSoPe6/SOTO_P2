@@ -299,7 +299,7 @@ Adder32bits
 Data_Memory_Calculator
 (
 	.Data0(ALUResultOut),
-	.Data1(32'hEFFF_0000),
+	.Data1(32'hFBFF_C000),
 	.Result(Real_Data_Address_wire)
 );
 

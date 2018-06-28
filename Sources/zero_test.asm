@@ -1,7 +1,7 @@
 
 .text
 main:	
-        addi    $sp, $zero, 0x10010200  #Adjusting stack pointer
+        addi    $sp, $zero, 0x10010800  #Adjusting stack pointer
         add     $t1, $zero, 0x10010000
 for: 
 	beq	$t1, $sp, endfor	# if $t1 == $t0 then endfor
