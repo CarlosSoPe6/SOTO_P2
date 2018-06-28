@@ -88,6 +88,8 @@ wire [31:0] MemoryData_wire;
 wire [31:0] MemoryDataOrALU_wire;
 wire [31:0] Real_Data_Address_wire;
 wire [31:0] New_ALUMemOrPC_wire;
+wire [31:0] Branch_Shifter_wire;
+wire [31:0] Branch_Address_wire;
 integer ALUStatus;
 
 
@@ -162,6 +164,20 @@ Multiplexer2to1
 #(
 	.NBits(32)
 )
+MUX_ForALUMemOrPC
+(
+	.Selector(ALUMemOrPC_wire),
+	.MUX_Data0(MemoryDataOrALU_wire),
+	.MUX_Data1(PCOrBranch_wire),
+	
+	.MUX_Output(New_ALUMemOrPC_wire)
+
+);
+
+Multiplexer2to1
+#(
+	.NBits(32)
+)
 MUX_ForRegisterOrPC
 (
 	.Selector(RegisterOrPC_wire),
@@ -169,21 +185,6 @@ MUX_ForRegisterOrPC
 	.MUX_Data1(RegisterOrShamt_wire),
 	
 	.MUX_Output(PCOrReg_New_Value_wire)
-
-);
-
-
-Multiplexer2to1
-#(
-	.NBits(32)
-)
-MUX_ForALUMemOrPC
-(
-	.Selector(ALUMemOrPC_wire),
-	.MUX_Data0(MemoryDataOrALU_wire),
-	.MUX_Data1(PCOrReg_New_Value_wire),
-	
-	.MUX_Output(New_ALUMemOrPC_wire)
 
 );
 
@@ -358,6 +359,21 @@ BranchController
 	.BranchControlSignal(BranchControl_wire)
 );
 
+ShiftLeft2
+BranchShifter
+(
+	.DataInput(InmmediateExtend_wire),
+	.DataOutput(Branch_Shifter_wire)
+);
+
+Adder32bits
+Branch_Address_Calculator
+(
+	.Data0(Branch_Shifter_wire),
+	.Data1(PC_4_wire),
+	.Result(Branch_Address_wire)
+);
+
 Multiplexer2to1
 #(
 	.NBits(32)
@@ -367,7 +383,7 @@ MuxForNextPcOrBranch
 	.Selector(BranchControl_wire),
 	.MUX_Output(PCOrBranch_wire),
 	.MUX_Data0(PC_4_wire),
-	.MUX_Data1(InmmediateExtend_wire)
+	.MUX_Data1(Branch_Address_wire)
 );
 
 assign ALUResultOut = ALUResult_wire;

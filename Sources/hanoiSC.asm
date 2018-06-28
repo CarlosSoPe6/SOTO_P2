@@ -7,13 +7,13 @@
 # Initialize stack pointers to indicate where the stacks are located, define the
 # number of plates and the index for every stack
 main:	
-        addi    $sp, $zero, 0x10010200  #Adjusting stack pointer
+        addi    $sp, $zero, 0x10010800  #Adjusting stack pointer
         add     $t1, $zero, 0x10010000
 for2: 
-	beq	$t1, $sp, endfor2	# if $t1 == $t0 then endfor
-	sw 	$zero, 0($t1)         # Loading data from memory (vector1)
+	beq		$t1, $sp, endfor2	# if $t1 == $t0 then endfor
+	sw 		$zero, 0($t1)		# Loading data from memory (vector1)
 	addi	$t1, $t1, 4			# $t0 = $t0 + 4
-	j 	for2
+	j 		for2
 endfor2:                   
         
         
@@ -23,16 +23,16 @@ endfor2:
 	
 	addi 	$at, $zero , 0x1001 	
 	sll     $at, $at, 16
-	ori 	$t1, $at , 0x0050       # Stack B base
+	ori 	$t1, $at , 0x0014       # Stack B base
 	
 	addi 	$at, $zero , 0x1001 	
 	sll     $at, $at, 16
-	ori 	$t2, $at , 0x00a0       # Stack C base
+	ori 	$t2, $at , 0x0028       # Stack C base
 
 	# Store the int **
 	addi 	$at, $zero , 0x1001 	
 	sll     $at, $at, 16
-	ori		$t3, $at, 0x0180
+	ori		$t3, $at, 0x0050
 	add		$a0, $zero, $t3		# $a0 = $zero + $t3
 								# the reference in a arg source
 	sw		$t0, 0($t3)			# Store the stack A reference
@@ -147,31 +147,5 @@ stackPush:
 	lw      $a3, 16($sp)        	# Loading N
 	addi    $sp, $sp, 20        	# Increasing stack pointer
 	jr      $ra
-          
-
-# ------ [ stackPush ] ----------------------
-# 
-# Adds a element to the stack
-# param     $a2:    Stack ref
-# param     $a1:    Data to push
-_stackPush:
-	lw		$t0, 0($a2)		# Load the stack's reference
-	sw		$a1, 0($t0)		# Store at stack's reference
-	addi	$t0, $t0, 4		# $t0 = $t0 + 4
-	sw		$t0, 0($a2)		# Store the stack's reference
-	jr		$ra		        # jump to $ra  
-	
-# ------ [ stackPop ] ----------------------
-# 
-# Retrive and remove a element from a stack
-# param     $a0:    Stack ref
-# return    $v0:    Element retrived  
-_stackPop:
-	lw		$t0, 0($a0)		# Load the stack's reference
-	addi	$t0, $t0, -4	# $t0 = $t0 + -4
-	lw		$v0, 0($t0)		# Load the stack value
-	sw      $t0, 0($a0)     # Store the new stack reference
-	sw		$zero, 0($t0)	# Clear stack
-	jr		$ra				# jump to $ra 
 
 end:
