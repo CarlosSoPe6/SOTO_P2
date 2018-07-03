@@ -46,13 +46,23 @@ assign  PortOut = 0;
 
 //******************************************************************/
 //******************************************************************/
-// Data types to connect modules
+// Stage 1
+
+wire [31:0] Instruction_wire;
+wire [31:0] PC_wire;
+wire [31:0] Real_PC_Wire;
+wire [31:0] PC_4_wire;
+wire [31:0] PCOrReg_New_Value_wire;
+wire [31:0] PC_New_Value_wire; 
+
+//******************************************************************/
+//******************************************************************/
+// Stage 2
+
+// Control Unit wires
 wire BranchNE_wire;
 wire BranchEQ_wire;
 wire RegDst_wire;
-wire BranchControl_wire;
-
-// Control Unit wires
 wire ALUSrc_wire;
 wire RegWrite_wire;
 wire MemWrite_wire;
@@ -62,34 +72,45 @@ wire ShamtSelector_wire;
 wire RegisterOrPC_wire;
 wire ALUMemOrPC_wire;
 wire JumpControl_wire;
-
-wire Zero_wire;
 wire [2:0] ALUOp_wire;
-wire [3:0] ALUOperation_wire;
-wire [4:0] WriteRegister_wire;
-wire [4:0] New_WriteRegister_wire;
-wire [31:0] PC_wire;
-wire [31:0] Real_PC_Wire;
-wire [31:0] Instruction_wire;
+
 wire [31:0] ReadData1_wire;
 wire [31:0] ReadData2_wire;
+wire [4:0] New_WriteRegister_wire;
+wire [4:0] WriteRegister_wire;
 wire [31:0] InmmediateExtend_wire;
 wire [31:0] ShamtExtend_wire;
-wire [31:0] ReadData2OrInmmediate_wire;
+
+//******************************************************************/
+//******************************************************************/
+// Stage 3
+
 wire [31:0] RegisterOrShamt_wire;
+wire [31:0] ReadData2OrInmmediate_wire;
+wire [3:0] ALUOperation_wire;
+wire Zero_wire;
 wire [31:0] ALUResult_wire;
 wire [31:0] JumpAddress_wire;
-wire [31:0] PC_New_Value_wire;
-wire [31:0] PCOrReg_New_Value_wire; 
-wire [31:0] PC_4_wire;
-wire [31:0] InmmediateExtendAnded_wire;
-wire [31:0] PCOrBranch_wire;
-wire [31:0] MemoryData_wire;
-wire [31:0] MemoryDataOrALU_wire;
-wire [31:0] Real_Data_Address_wire;
-wire [31:0] New_ALUMemOrPC_wire;
 wire [31:0] Branch_Shifter_wire;
 wire [31:0] Branch_Address_wire;
+
+//******************************************************************/
+//******************************************************************/
+// Stage 4
+
+wire [31:0] Real_Data_Address_wire;
+wire [31:0] MemoryData_wire;
+wire BranchControl_wire;
+wire [31:0] PCOrBranch_wire;
+
+//******************************************************************/
+//******************************************************************/
+// Stage 5
+
+wire [31:0] MemoryDataOrALU_wire;
+wire [31:0] New_ALUMemOrPC_wire;
+
+
 integer ALUStatus;
 
 
