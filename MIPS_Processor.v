@@ -49,11 +49,20 @@ assign  PortOut = 0;
 // Stage 1
 
 wire [31:0] Instruction_wire;
+wire [31:0] Instruction_wire_PR;
 wire [31:0] PC_wire;
 wire [31:0] Real_PC_Wire;
 wire [31:0] PC_4_wire;
 wire [31:0] PCOrReg_New_Value_wire;
 wire [31:0] PC_New_Value_wire; 
+
+PipelineRegister
+IF_ID(
+   .clk(clk),
+	.reset(reset),
+	.Instruction(Instruction_wire),
+	.Instr(Instruction_wire_PR)
+);
 
 //******************************************************************/
 //******************************************************************/
