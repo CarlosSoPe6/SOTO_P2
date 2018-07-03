@@ -99,7 +99,7 @@ wire [31:0] ShamtExtend_wire;
 
 //Pipeline Resgiter 2
 wire [31:0] Instruction_P2;
-wire [31:0] PC_4_P1;
+wire [31:0] PC_4_P2;
 
 PipelineRegister
 ID_EX(
@@ -124,6 +124,9 @@ wire [31:0] ALUResult_wire;
 wire [31:0] JumpAddress_wire;
 wire [31:0] Branch_Shifter_wire;
 wire [31:0] Branch_Address_wire;
+
+//Pipeline Resgiter 3
+wire [31:0] PC_4_P3;
 
 PipelineRegister
 EX_MEM(
