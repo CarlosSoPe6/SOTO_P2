@@ -127,15 +127,16 @@ wire [31:0] Branch_Address_wire;
 
 //Pipeline Resgiter 3
 wire [31:0] PC_4_P3;
+wire [31:0] ALUResultOut_P3;
 
 PipelineRegister
 EX_MEM(
    .clk(clk),
 	.reset(reset),
 	.IP_0(PC_4_P2),
-	.IP_1(1),
+	.IP_1(ALUResultOut),
 	.OP_0(PC_4_P3),
-	.OP_1(1)
+	.OP_1(ALUResultOut_P3)
 );
 
 //******************************************************************/
@@ -396,7 +397,7 @@ Branch_Address_Calculator
 Adder32bits
 Data_Memory_Calculator
 (
-	.Data0(ALUResultOut),
+	.Data0(ALUResultOut_P3),
 	.Data1(32'hFBFF_C000),
 	.Result(Real_Data_Address_wire)
 );
