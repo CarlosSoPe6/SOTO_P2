@@ -49,20 +49,26 @@ assign  PortOut = 0;
 // Stage 1
 
 wire [31:0] Instruction_wire;
-wire [31:0] Instruction_wire_PR;
 wire [31:0] PC_wire;
 wire [31:0] Real_PC_Wire;
 wire [31:0] PC_4_wire;
 wire [31:0] PCOrReg_New_Value_wire;
 wire [31:0] PC_New_Value_wire; 
 
+//Pipeline Resgiter 1
+wire [31:0] Instruction_P1;
+wire [31:0] PC_4_P1;
+
 PipelineRegister
 IF_ID(
    .clk(clk),
 	.reset(reset),
-	.Instruction(Instruction_wire),
-	.Instr(Instruction_wire_PR)
+	.IP_0(Instruction_wire),
+	.IP_1(PC_4_wire),
+	.OP_0(Instruction_P1),
+	.OP_1(PC_4_P1)
 );
+
 
 //******************************************************************/
 //******************************************************************/
@@ -83,12 +89,28 @@ wire ALUMemOrPC_wire;
 wire JumpControl_wire;
 wire [2:0] ALUOp_wire;
 
+
 wire [31:0] ReadData1_wire;
 wire [31:0] ReadData2_wire;
 wire [4:0] New_WriteRegister_wire;
 wire [4:0] WriteRegister_wire;
 wire [31:0] InmmediateExtend_wire;
 wire [31:0] ShamtExtend_wire;
+
+//Pipeline Resgiter 2
+wire [31:0] Instruction_P2;
+wire [31:0] PC_4_P1;
+
+PipelineRegister
+ID_EX(
+   .clk(clk),
+	.reset(reset),
+	.IP_0(Instruction_P1),
+	.IP_1(PC_4_P1),
+	.OP_0(Instruction_P2),
+	.OP_1(PC_4_P2)
+);
+
 
 //******************************************************************/
 //******************************************************************/
@@ -102,6 +124,16 @@ wire [31:0] ALUResult_wire;
 wire [31:0] JumpAddress_wire;
 wire [31:0] Branch_Shifter_wire;
 wire [31:0] Branch_Address_wire;
+
+PipelineRegister
+EX_MEM(
+   .clk(clk),
+	.reset(reset),
+	.IP_0(PC_4_P2),
+	.IP_1(1),
+	.OP_0(PC_4_P3),
+	.OP_1(1)
+);
 
 //******************************************************************/
 //******************************************************************/
@@ -203,8 +235,8 @@ MuxForNextPcOrJump
 Control
 ControlUnit
 (
-	.OP(Instruction_wire[31:26]),
-	.Function(Instruction_wire[5:0]),
+	.OP(Instruction_P1[31:26]),
+	.Function(Instruction_P1[5:0]),
 	.RegDst(RegDst_wire),
 	.BranchNE(BranchNE_wire),
 	.BranchEQ(BranchEQ_wire),
@@ -227,8 +259,8 @@ Register_File
   .reset(reset),
   .RegWrite(RegWrite_wire),
   .WriteRegister(New_WriteRegister_wire),
-  .ReadRegister1(Instruction_wire[25:21]),
-  .ReadRegister2(Instruction_wire[20:16]),
+  .ReadRegister1(Instruction_P1[25:21]),
+  .ReadRegister2(Instruction_P1[20:16]),
   .WriteData(New_ALUMemOrPC_wire),
   .ReadData1(ReadData1_wire),
   .ReadData2(ReadData2_wire)
@@ -255,8 +287,8 @@ Multiplexer2to1
 MUX_ForRTypeAndIType
 (
 	.Selector(RegDst_wire),
-	.MUX_Data0(Instruction_wire[20:16]),
-	.MUX_Data1(Instruction_wire[15:11]),
+	.MUX_Data0(Instruction_P1[20:16]),
+	.MUX_Data1(Instruction_P1[15:11]),
 	
 	.MUX_Output(WriteRegister_wire)
 
@@ -265,7 +297,7 @@ MUX_ForRTypeAndIType
 SignExtend
 SignExtendForConstants
 (   
-	.DataInput(Instruction_wire[15:0]),
+	.DataInput(Instruction_P1[15:0]),
    .SignExtendOutput(InmmediateExtend_wire)
 );
 
@@ -273,7 +305,7 @@ SignExtendForConstants
 UnsignedExtend
 UnsignedExtendForShamt
 (
-	.DataInput(Instruction_wire[10:6]),
+	.DataInput(Instruction_P1[10:6]),
 	.UnsignedExtendOutput(ShamtExtend_wire)
 );
 
@@ -315,7 +347,7 @@ ALUControl
 ArithmeticLogicUnitControl
 (
   .ALUOp(ALUOp_wire),
-  .ALUFunction(Instruction_wire[5:0]),
+  .ALUFunction(Instruction_P2[5:0]),
   .ALUOperation(ALUOperation_wire)
  
 );
@@ -333,7 +365,7 @@ ArithmeticLogicUnit
 ShiftLeft2
 JumpShifter
 (
-	.DataInput(Instruction_wire[25:0]),
+	.DataInput(Instruction_P2[25:0]),
 	.DataOutput(JumpAddress_wire)
 );
 
@@ -348,7 +380,7 @@ Adder32bits
 Branch_Address_Calculator
 (
 	.Data0(Branch_Shifter_wire),
-	.Data1(PC_4_wire),
+	.Data1(PC_4_P2),
 	.Result(Branch_Address_wire)
 );
 
@@ -398,7 +430,7 @@ MuxForNextPcOrBranch
 (
 	.Selector(BranchControl_wire),
 	.MUX_Output(PCOrBranch_wire),
-	.MUX_Data0(PC_4_wire),
+	.MUX_Data0(PC_4_P3),
 	.MUX_Data1(Branch_Address_wire)
 );
 
