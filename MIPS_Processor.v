@@ -49,6 +49,7 @@ assign  PortOut = 0;
 // Stage 1
 
 wire [31:0] IF_Instruction_wire;
+wire [31:0] ID_Instruction_wire;
 wire [31:0] PC_wire;
 wire [31:0] Real_PC_Wire;
 wire [31:0] IF_PC_4_wire;
@@ -196,6 +197,22 @@ IFBlackBox
 
 	.Instruction_wire(IF_Instruction_wire),
 	.PC_4_wire(IF_PC_4_wire)
+);
+
+IF_ID_PipelineRegister
+#(
+	.NBits(32)
+if_id_pipelineRegister
+)
+
+(
+    .clk(clk),
+    .reset(reset),
+    .in_PC_4(IF_PC_4_wire),
+    .in_Instruction(IF_Instruction_wire),
+    
+    .out_PC_4(ID_PC_4_wire),
+    .out_Instruction(ID_Instruction_wire)
 );
 
 //******************************************************************/
