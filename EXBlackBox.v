@@ -3,25 +3,25 @@ module EXBlackBox
 	parameter NBits=32
 )
 (
-  input clk,
-  input reset,
+    input clk,
+    input reset,
 
-  input ShamtSelector,
-  input [NBits-1:0] ReadData1,
-  input [NBits-1:0] ShamtExtend,
-  input ALUSrc,
-  input [NBits-1:0] ReadData2,
-  input [NBits-1:0] InmmediateExtend,
-  input [2:0] ALUOp,
-  input [5:0] ALUFunction,
-  input [25:0] JumpNoShifted,
-  input [NBits-1:0] PC_4,
+    input ShamtSelector,
+    input [NBits-1:0] ReadData1,
+    input [NBits-1:0] ShamtExtend,
+    input ALUSrc,
+    input [NBits-1:0] ReadData2,
+    input [NBits-1:0] InmmediateExtend,
+    input [2:0] ALUOp,
+    input [5:0] ALUFunction,
+    input [25:0] JumpNoShifted,
+    input [NBits-1:0] PC_4,
 
-  output [NBits-1:0] BranchAddress,
-  output [NBits-1:0] JumpAddress,
-  output [NBits-1:0] ALUResult,
-  output [NBits-1:0] out_PC_4,
-  output Zero
+    output [NBits-1:0] BranchAddress,
+    output [NBits-1:0] JumpAddress,
+    output [NBits-1:0] ALUResult,
+    output [NBits-1:0] out_PC_4,
+    output Zero
 );
 
     wire [NBits-1:0] RegisterOrShamt_wire;

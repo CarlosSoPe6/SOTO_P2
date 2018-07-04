@@ -167,10 +167,11 @@ wire [31:0] ALUResultOut_P3;
 //******************************************************************/
 // Stage 4
 
-wire [31:0] Real_Data_Address_wire;
-wire [31:0] MemoryData_wire;
-wire BranchControl_wire;
-wire [31:0] PCOrBranch_wire;
+wire [31:0] MEM_MemoryData_wire;
+wire [31:0] WB_MemoryData_wire;
+
+wire [31:0] MEM_PCOrBranch_wire;
+wire [31:0] WB_PCOrBranch_wire;
 
 //******************************************************************/
 //******************************************************************/
@@ -412,7 +413,27 @@ ex_mem_pipelineRegister
 //******************************************************************/
 //******************************************************************/
 
+MEMBlackBox
+#(
+	.NBits(32)
+)
+memStage
+(
+	.clk(clk),
+	.reset(reset),
+	.MemWrite(MEM_MemWrite_wire),
+	.MemRead(MEM_MemRead_wire),
+	.Zero(MEM_Zero_wire),
+	.BranchEquals(MEM_BranchEQ_wire),
+    .BranchNotEquals(MEM_BranchNE_wire),
+	.ALUResult(MEM_ALUResult_wire),
+	.ReadData2(MEM_ReadData2_wire),
+	.PC_4(MEM_PC_4_wire),
+	.BranchAddress(MEM_BranchAddress_wire),
 
+	.MemoryData(MEM_MemoryData_wire),
+	.PCOrBranch(MEM_PCOrBranch_wire)
+);	
 
 //******************************************************************/
 //******************************************************************/
@@ -447,7 +468,6 @@ MuxForReadMemoryOrALU
 );
 
 assign ALUResultOut = ALUResult_wire;
-
 
 endmodule
 
