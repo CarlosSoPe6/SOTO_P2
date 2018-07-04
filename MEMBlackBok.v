@@ -3,13 +3,30 @@ module MEMBlackBox
 	parameter NBits=32
 )
 (
-  
+    input clk,
+    input reset,
+    input MemWrite,
+    input MemRead,
+    input Zero,
+    input BranchEquals,
+    input BranchNotEquals,
+    input [NBits-1:0] ALUResult,
+    input [NBits-1:0] ReadData2,
+    input [NBits-1:0] PC_4,
+    input [NBits-1:0] BranchAddress,
+
+    output [NBits-1:0] MemoryData,
+    output [NBits-1:0] PCOrBranch
+
 );
+
+    wire [NBits-1:0] Real_Data_Address_wire;
+    wire BranchControl_wire;
 
     Adder32bits
     Data_Memory_Calculator
     (
-        .Data0(ALUResultOut_P3),
+        .Data0(ALUResult),
         .Data1(32'hFBFF_C000),
         .Result(Real_Data_Address_wire)
     );
@@ -21,20 +38,20 @@ module MEMBlackBox
     )
     RAM_Memory
     (
-        .WriteData(ReadData2_wire),
+        .WriteData(ReadData2),
         .Address(Real_Data_Address_wire),
-        .MemWrite(MemWrite_wire),
-        .MemRead(MemRead_wire),
-        .ReadData(MemoryData_wire),
+        .MemWrite(MemWrite),
+        .MemRead(MemRead),
+        .ReadData(MemoryData),
         .clk(clk)
     );
 
     BranchModule
     BranchController
     (
-        .Zero(Zero_wire),
-        .BNEControl(BranchNE_wire),
-        .BEQControl(BranchEQ_wire),
+        .Zero(Zero),
+        .BNEControl(BranchNotEquals),
+        .BEQControl(BranchEquals),
         .BranchControlSignal(BranchControl_wire)
     );
 
@@ -45,9 +62,9 @@ module MEMBlackBox
     MuxForNextPcOrBranch
     (
         .Selector(BranchControl_wire),
-        .MUX_Output(PCOrBranch_wire),
-        .MUX_Data0(PC_4_P3),
-        .MUX_Data1(MEM_BranchAddress_wire)
+        .MUX_Output(PCOrBranch),
+        .MUX_Data0(PC_4),
+        .MUX_Data1(BranchAddress)
     );
 
 endmodule // MEMBlackBox
