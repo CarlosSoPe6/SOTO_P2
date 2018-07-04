@@ -1,6 +1,7 @@
 module MEMBlackBox
 #(
-	parameter NBits=32
+	parameter NBits=32,
+	parameter MEMORY_DEPTH = 512
 )
 (
     input clk,
