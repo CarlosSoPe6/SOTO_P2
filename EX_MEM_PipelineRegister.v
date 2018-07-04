@@ -46,7 +46,7 @@ module EX_MEM_PipelineRegister(
     reg CtrlALUMemOrPC;
 
     always @(negedge reset or negedge clk) begin
-      if(reset) 
+      if(reset==0) 
       begin
         Zero <= 0;
         ALUResult <= 0;

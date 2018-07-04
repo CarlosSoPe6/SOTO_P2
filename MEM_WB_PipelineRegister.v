@@ -19,7 +19,7 @@ module MEM_WB_PipelineRegister(
     output out_CtrlALUMemOrPC
 );
 
-    reg [31:0] ALUResult
+    reg [31:0] ALUResult;
     reg [31:0] JumpAddress;
     reg [31:0] MemoryData;
     reg [31:0] PCOrBranch;
@@ -30,7 +30,7 @@ module MEM_WB_PipelineRegister(
 
     always @(negedge reset or negedge clk) 
     begin
-        if(reset)
+        if(reset==0)
         begin
             JumpAddress <= 0;
             MemoryData <= 0;
