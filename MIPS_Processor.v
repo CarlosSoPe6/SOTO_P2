@@ -74,7 +74,7 @@ wire ID_BranchEQ_wire;
 wire EX_BranchEQ_wire;
 wire MEM_BranchEQ_wire;
 
-wire RegDst_wire;
+wire ID_RegDst_wire;
 
 wire ID_ALUSrc_wire;
 wire EX_ALUSrc_wire;
@@ -100,25 +100,25 @@ wire WB_MemtoReg_wire;
 wire ID_ShamtSelector_wire;
 wire EX_ShamtSelector_wire;
 
-wire RegisterOrPC_wire;
+wire ID_RegisterOrPC_wire;
 
-wire ALUMemOrPC_wire;
+wire ID_ALUMemOrPC_wire;
 
 wire ID_JumpControl_wire;
 wire EX_JumpControl_wire;
 wire MEM_JumpControl_wire;
 
-wire [2:0] ALUOp_wire;
+wire [2:0] ID_ALUOp_wire;
 
 
-wire [31:0] ReadData1_wire;
+wire [31:0] ID_ReadData1_wire;
 wire [31:0] ID_ReadData2_wire;
 wire [31:0] EX_ReadData2_wire;
 wire [31:0] MEM_ReadData2_wire;
-wire [4:0] New_WriteRegister_wire;
+wire [4:0] WB_New_WriteRegister_wire;
 wire [4:0] WriteRegister_wire;
-wire [31:0] InmmediateExtend_wire;
-wire [31:0] ShamtExtend_wire;
+wire [31:0] ID_InmmediateExtend_wire;
+wire [31:0] ID_ShamtExtend_wire;
 
 //Pipeline Resgiter 2
 wire [31:0] Instruction_P2;
@@ -196,83 +196,36 @@ IFBlackBox
 //******************************************************************/
 //******************************************************************/
 
-Control
-ControlUnit
-(
-	.OP(Instruction_wire[31:26]),
-	.Function(Instruction_wire[5:0]),
-	.RegDst(RegDst_wire),
-	.BranchNE(BranchNE_wire),
-	.BranchEQ(BranchEQ_wire),
-	.ALUOp(ALUOp_wire),
-	.ALUSrc(ALUSrc_wire),
-	.RegWrite(RegWrite_wire),
-	.MemWrite(MemWrite_wire),
-	.MemRead(MemRead_wire),
-	.MemtoReg(MemtoReg_wire),
-	.ShamtSelector(ShamtSelector_wire),
-	.RegisterOrPC(RegisterOrPC_wire),
-	.ALUMemOrPC(ALUMemOrPC_wire),
-	.JumpControl(JumpControl_wire)
-);
-
-RegisterFile
-Register_File
-(
-  .clk(clk),
-  .reset(reset),
-  .RegWrite(RegWrite_wire),
-  .WriteRegister(New_WriteRegister_wire),
-  .ReadRegister1(Instruction_wire[25:21]),
-  .ReadRegister2(Instruction_wire[20:16]),
-  .WriteData(New_ALUMemOrPC_wire),
-  .ReadData1(ReadData1_wire),
-  .ReadData2(ReadData2_wire)
-);
-
-Multiplexer2to1
+IDBlackBox
 #(
-	.NBits(5)
+	.NBits(32),
+	.MEMORY_DEPTH(512)
 )
-MUX_NewWriteRegister
 (
-	.Selector(ALUMemOrPC_wire),
-	.MUX_Data0(WriteRegister_wire),
-	.MUX_Data1(31),
+	.clk(clk),
+	.reset(reset),
+	.Instruction_wire(IF_Instruction_wire),
+	.New_WriteRegister_wire(WB_New_WriteRegister_wire),
 	
-	.MUX_Output(New_WriteRegister_wire)
-
-);
-
-Multiplexer2to1
-#(
-	.NBits(5)
-)
-MUX_ForRTypeAndIType
-(
-	.Selector(RegDst_wire),
-	.MUX_Data0(Instruction_wire[20:16]),
-	.MUX_Data1(Instruction_wire[15:11]),
+	.RegDst_wire(ID_RegDst_wire),
+	.BranchNE_wire(ID_BranchNE_wire),
+	.BranchEQ_wire(ID_BranchEQ_wire),
+	.ALUOp_wire(ID_ALUOp_wire),
+	.ALUSrc_wire(ID_ALUSrc_wire),
+	.RegWrite_wire(ID_RegWrite_wire),
+	.MemWrite_wire(ID_MemWrite_wire),
+	.MemRead_wire(ID_MemRead_wire),
+	.MemtoReg_wire(ID_MemtoReg_wire),
+	.ShamtSelector_wire(ID_ShamtSelector_wire),
+	.RegisterOrPC_wire(ID_RegisterOrPC_wire),
+	.ALUMemOrPC_wire(ID_ALUMemOrPC_wire),
+	.JumpControl_wire(ID_JumpControl_wire),
 	
-	.MUX_Output(WriteRegister_wire)
-
+	.ReadData1_wire(ID_ReadData1_wire),
+	.ReadData2_wire(ID_ReadData2_wire),
+	.InmmediateExtend_wire(ID_InmmediateExtend_wire),
+	.ShamtExtend_wire(ID_ShamtExtend_wire)
 );
-
-SignExtend
-SignExtendForConstants
-(   
-	.DataInput(Instruction_wire[15:0]),
-   .SignExtendOutput(InmmediateExtend_wire)
-);
-
-
-UnsignedExtend
-UnsignedExtendForShamt
-(
-	.DataInput(Instruction_wire[10:6]),
-	.UnsignedExtendOutput(ShamtExtend_wire)
-);
-
 
 //******************************************************************/
 //******************************************************************/
