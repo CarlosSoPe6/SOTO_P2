@@ -115,13 +115,20 @@ wire WB_MemtoReg_wire;
 wire ID_ShamtSelector_wire;
 wire EX_ShamtSelector_wire;
 
-wire RegisterOrPC_wire;
+wire ID_RegisterOrPC_wire;
+wire EX_RegisterOrPC_wire;
+wire MEM_RegisterOrPC_wire;
+wire WB_RegisterOrPC_wire;
 
-wire ALUMemOrPC_wire;
+wire ID_ALUMemOrPC_wire;
+wire EX_ALUMemOrPC_wire;
+wire MEM_ALUMemOrPC_wire;
+wire WB_ALUMemOrPC_wire;
 
 wire ID_JumpControl_wire;
 wire EX_JumpControl_wire;
 wire MEM_JumpControl_wire;
+wire WB_JumpControl_wire;
 
 wire [2:0] ALUOp_wire;
 
@@ -155,6 +162,7 @@ wire [31:0] MEM_ALUResult_wire;
 
 wire [31:0] EX_JumpAddress_wire;
 wire [31:0] MEM_JumpAddress_wire;
+wire [31:0] WB_JumpAddress_wire;
 
 wire [31:0] EX_BranchAddress_wire;
 wire [31:0] MEM_BranchAddress_wire;
@@ -376,7 +384,7 @@ ex_mem_pipelineRegister
 (
 	// General signals
 	.clk(clk),
-	.reset(reset)
+	.reset(reset),
 
 	// Input signals
 	.in_Zero(MEM_Zero_wire),
@@ -391,6 +399,8 @@ ex_mem_pipelineRegister
     .in_CtrlALUOrMem(EX_MemtoReg_wire),
 	.in_CtrlBranchEquals(EX_BranchEQ_wire),
 	.in_CtrlBranchNotEquals(EX_BranchNE_wire),
+	.in_CtrlRegisterOrPC(EX_RegisterOrPC_wire),
+	.in_CtrlALUMemOrPC(EX_ALUMemOrPC_wire),
 
 	// Output signals
     .out_Zero(MEM_Zero_wire),
@@ -404,7 +414,9 @@ ex_mem_pipelineRegister
     .out_CtrlMemWrite(MEM_MemWrite_wire),
     .out_CtrlALUOrMem(MEM_MemtoReg_wire),
 	.out_CtrlBranchEquals(MEM_BranchEQ_wire),
-	.out_CtrlBranchNotEquals(MEM_BranchNE_wire)
+	.out_CtrlBranchNotEquals(MEM_BranchNE_wire),
+	.out_CtrlRegisterOrPC(MEM_RegisterOrPC_wire),
+	.out_CtrlALUMemOrPC(MEM_ALUMemOrPC_wire)
 );
 
 //******************************************************************/
@@ -434,6 +446,28 @@ memStage
 	.MemoryData(MEM_MemoryData_wire),
 	.PCOrBranch(MEM_PCOrBranch_wire)
 );	
+
+MEM_WB_PipelineRegister
+mem_wb_pipelineregister
+(
+	.clk(clk),
+    .reset(reset),
+    .in_JumpAddress(MEM_JumpAddress_wire),
+    .in_MemoryData(MEM_MemoryData_wire),
+    .in_PCOrBranch(MEM_PCOrBranch_wire),
+    .in_CtrlALUOrMem(MEM_MemtoReg_wire),
+    .in_CtrlJump(MEM_JumpControl_wire),
+    .in_CtrlRegisterOrPC(MEM_RegisterOrPC_wire),
+    .in_CtrlALUMemOrPC(MEM_ALUMemOrPC_wire),
+    
+	.out_JumpAddress(WB_JumpAddress_wire),
+    .out_MemoryData(WB_MemoryData_wire),
+    .out_PCOrBranch(WB_PCOrBranch_wire),
+    .out_CtrlALUOrMem(WB_MemtoReg_wire),
+    .out_CtrlJump(WB_JumpControl_wire),
+    .out_CtrlRegisterOrPC(WB_RegisterOrPC_wire),
+    .out_CtrlALUMemOrPC(WB_ALUMemOrPC_wire)
+);
 
 //******************************************************************/
 //******************************************************************/

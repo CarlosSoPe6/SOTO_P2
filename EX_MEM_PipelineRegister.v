@@ -13,6 +13,8 @@ module EX_MEM_PipelineRegister(
     input in_CtrlALUOrMem,
     input in_CtrlBranchEquals,
     input in_CtrlBranchNotEquals,
+    input in_CtrlRegisterOrPC,
+    input in_CtrlALUMemOrPC,
 
     output out_Zero,
     output [31:0] out_ALUResult,
@@ -25,7 +27,9 @@ module EX_MEM_PipelineRegister(
     output out_CtrlMemWrite,
     output out_CtrlALUOrMem,
     output out_CtrlBranchEquals,
-    output out_CtrlBranchNotEquals
+    output out_CtrlBranchNotEquals,
+    output out_CtrlRegisterOrPC,
+    output out_CtrlALUMemOrPC
 );
     reg Zero;
     reg [31:0] ALUResult;
@@ -38,6 +42,8 @@ module EX_MEM_PipelineRegister(
     reg CtrlALUOrMem;
     reg CtrlBranchEquals;
     reg CtrlBranchNotEquals;
+    reg CtrlRegisterOrPC;
+    reg CtrlALUMemOrPC;
 
     always @(negedge reset or negedge clk) begin
       if(reset) 
@@ -53,6 +59,8 @@ module EX_MEM_PipelineRegister(
         CtrlALUOrMem <= 0;
         CtrlBranchEquals <= 0;
         CtrlBranchNotEquals <= 0;
+        CtrlRegisterOrPC <= 0;
+        CtrlALUMemOrPC <= 0;
       end 
       else 
       begin
@@ -67,6 +75,8 @@ module EX_MEM_PipelineRegister(
         CtrlALUOrMem <= in_CtrlALUOrMem;
         CtrlBranchEquals <= in_CtrlBranchEquals;
         CtrlBranchNotEquals <= in_CtrlBranchNotEquals;
+        CtrlRegisterOrPC <= in_CtrlRegisterOrPC;
+        CtrlALUMemOrPC <= in_CtrlALUMemOrPC;
       end
     end
 
@@ -81,5 +91,7 @@ module EX_MEM_PipelineRegister(
     assign out_CtrlALUOrMem = CtrlALUOrMem;
     assign out_CtrlBranchEquals = CtrlBranchEquals;
     assign out_CtrlBranchNotEquals = out_CtrlBranchEquals;
+    assign out_CtrlRegisterOrPC = CtrlRegisterOrPC;
+    assign out_CtrlALUMemOrPC = CtrlALUMemOrPC;
 
 endmodule // EX_MEM_PipelineRegister
