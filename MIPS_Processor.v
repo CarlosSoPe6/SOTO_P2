@@ -101,17 +101,6 @@ wire [31:0] ShamtExtend_wire;
 wire [31:0] Instruction_P2;
 wire [31:0] PC_4_P2;
 
-PipelineRegister
-ID_EX(
-   .clk(clk),
-	.reset(reset),
-	.IP_0(Instruction_P1),
-	.IP_1(PC_4_P1),
-	.OP_0(Instruction_P2),
-	.OP_1(PC_4_P2)
-);
-
-
 //******************************************************************/
 //******************************************************************/
 // Stage 3
@@ -128,16 +117,6 @@ wire [31:0] Branch_Address_wire;
 //Pipeline Resgiter 3
 wire [31:0] PC_4_P3;
 wire [31:0] ALUResultOut_P3;
-
-PipelineRegister
-EX_MEM(
-   .clk(clk),
-	.reset(reset),
-	.IP_0(PC_4_P2),
-	.IP_1(ALUResultOut),
-	.OP_0(PC_4_P3),
-	.OP_1(ALUResultOut_P3)
-);
 
 //******************************************************************/
 //******************************************************************/
