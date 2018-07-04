@@ -49,6 +49,10 @@ assign  PortOut = 0;
 // Stage 1
 
 wire [31:0] IF_Instruction_wire;
+wire [31:0] ID_Instruction_wire;
+wire [31:0] EX_Instruction_wire;
+wire [31:0] MEM_Instruction_wire;
+
 wire [31:0] PC_wire;
 wire [31:0] Real_PC_Wire;
 wire [31:0] IF_PC_4_wire;
@@ -170,7 +174,7 @@ wire [31:0] WB_PCOrBranch_wire;
 //******************************************************************/
 // Stage 5
 
-wire [31:0] MemoryDataOrALU_wire;
+wire [31:0] EX_MemoryDataOrALU_wire;
 wire [31:0] New_ALUMemOrPC_wire;
 
 
@@ -190,7 +194,7 @@ IFBlackBox
 )
 (
 	.clk(clk),
-   .reset(reset),
+	.reset(reset),
 	.PCOrReg_New_Value_wire(PC_New_Value_wire),
 
 
@@ -368,10 +372,22 @@ Multiplexer2to1
 #(
 	.NBits(32)
 )
+MuxForReadMemoryOrALU
+(
+	.Selector(WB_MemtoReg_wire),
+	.MUX_Data0(WB_ALUResult_wire),
+	.MUX_Data1(WB_MemoryData_wire),
+	.MUX_Output(EX_MemoryDataOrALU_wire)
+);
+
+Multiplexer2to1
+#(
+	.NBits(32)
+)
 MUX_ForALUMemOrPC
 (
-	.Selector(ALUMemOrPC_wire),
-	.MUX_Data0(MemoryDataOrALU_wire),
+	.Selector(WB_ALUMemOrPC_wire),
+	.MUX_Data0(EX_MemoryDataOrALU_wire),
 	.MUX_Data1(PCOrBranch_wire),
 	
 	.MUX_Output(New_ALUMemOrPC_wire)
@@ -382,40 +398,28 @@ Multiplexer2to1
 #(
 	.NBits(32)
 )
-MuxForReadMemoryOrALU
+MuxForNextPcOrJump
 (
-	.Selector(MemtoReg_wire),
-	.MUX_Data0(ALUResultOut),
-	.MUX_Data1(MemoryData_wire),
-	.MUX_Output(MemoryDataOrALU_wire)
+	.Selector(WB_JumpControl_wire),
+	.MUX_Data0(WB_PCOrBranch_wire),
+	.MUX_Data1(WB_JumpAddress_wire),
+
+	.MUX_Output(PC_New_Value_wire)
 );
 
 Multiplexer2to1
 #(
-	.NBits(NBits)
+	.NBits(32)
 )
 MUX_ForRegisterOrPC
 (
-	.Selector(RegisterOrPC_wire),
+	.Selector(WB_RegisterOrPC_wire),
 	.MUX_Data0(PC_New_Value_wire),
-	.MUX_Data1(RegisterOrShamt_wire),
+	.MUX_Data1(WB_ReadData1_wire),
 	
 	.MUX_Output(PCOrReg_New_Value_wire)
 
 );
-
-Multiplexer2to1
-#(
-	.NBits(NBits)
-)
-MuxForNextPcOrJump
-(
-	.Selector(JumpControl_wire),
-	.MUX_Output(PC_New_Value_wire),
-	.MUX_Data0(PCOrBranch_wire),
-	.MUX_Data1({PC_4_wire[31:28], JumpAddress_wire[27:0]})
-);
-
 
 assign ALUResultOut = EX_ALUResult_wire;
 
