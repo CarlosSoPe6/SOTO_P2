@@ -7,6 +7,7 @@ module EX_MEM_PipelineRegister(
     input [31:0] in_JumpAddress,
     input [31:0] in_BranchAddress,
     input [31:0] in_PC_4,
+    input in_CtrlJump,
     input in_CtrlMemRead,
     input in_CtrlMemWrite,
     input in_CtrlALUOrMem,
@@ -19,6 +20,7 @@ module EX_MEM_PipelineRegister(
     output [31:0] out_JumpAddress,
     output [31:0] out_BranchAddress,
     output [31:0] out_PC_4,
+    output out_CtrlJump,
     output out_CtrlMemRead,
     output out_CtrlMemWrite,
     output out_CtrlALUOrMem,
@@ -78,6 +80,6 @@ module EX_MEM_PipelineRegister(
     assign out_CtrlMemWrite = CtrlMemWrite;
     assign out_CtrlALUOrMem = CtrlALUOrMem;
     assign out_CtrlBranchEquals = CtrlBranchEquals;
-    assign out_CtrlBranchNotEquals = out_CtrlBranchEquals
+    assign out_CtrlBranchNotEquals = out_CtrlBranchEquals;
 
 endmodule // EX_MEM_PipelineRegister
