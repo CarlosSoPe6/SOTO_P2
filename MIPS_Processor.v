@@ -48,7 +48,7 @@ assign  PortOut = 0;
 //******************************************************************/
 // Stage 1
 
-wire [31:0] Instruction_wire;
+wire [31:0] IF_Instruction_wire;
 wire [31:0] PC_wire;
 wire [31:0] Real_PC_Wire;
 wire [31:0] IF_PC_4_wire;
@@ -58,21 +58,6 @@ wire [31:0] MEM_PC_4_wire;
 wire [31:0] PCOrReg_New_Value_wire;
 wire [31:0] PC_New_Value_wire; 
 
-/*
-//Pipeline Resgiter 1
-wire [31:0] Instruction_P1;
-wire [31:0] PC_4_P1;
-
-IF_ID_PipelineRegister
-if_id_pipelineRegister(
-   .clk(clk),
-	.reset(reset),
-	.IP_0(Instruction_wire),
-	.IP_1(PC_4_wire),
-	.OP_0(Instruction_P1),
-	.OP_1(PC_4_P1)
-);
-*/
 
 //******************************************************************/
 //******************************************************************/
@@ -190,6 +175,20 @@ integer ALUStatus;
 //******************************************************************/
 //******************************************************************/
 
+IFBlackBox
+#(
+	.NBits(32),
+	.MEMORY_DEPTH(512)
+)
+(
+	.clk(clk),
+   .reset(reset),
+	.PCOrReg_New_Value_wire(PC_New_Value_wire),
+
+
+	.Instruction_wire(IF_Instruction_wire),
+	.PC_4_wire(IF_PC_4_wire)
+);
 
 //******************************************************************/
 //******************************************************************/
