@@ -59,8 +59,8 @@ wire [31:0] PC_New_Value_wire;
 wire [31:0] Instruction_P1;
 wire [31:0] PC_4_P1;
 
-PipelineRegister
-IF_ID(
+IF_ID_PipelineRegister
+if_id_pipelineRegister(
    .clk(clk),
 	.reset(reset),
 	.IP_0(Instruction_wire),
