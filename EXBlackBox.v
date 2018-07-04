@@ -28,6 +28,7 @@ module EXBlackBox
     wire [NBits-1:0] ReadData2OrInmmediate_wire;
     wire [3:0] ALUOperation_wire;
     wire [NBits-1:0] BranchShifter_wire;
+    wire [NBits-1:0] JumpAddress_wire;
 
     Multiplexer2to1
     #(
@@ -78,7 +79,7 @@ module EXBlackBox
     JumpShifter
     (
         .DataInput(JumpNoShifted),
-        .DataOutput(JumpAddress)
+        .DataOutput(JumpAddress_wire)
     );
 
     ShiftLeft2
@@ -95,5 +96,7 @@ module EXBlackBox
         .Data1(PC_4),
         .Result(BranchAddress)
     );
+
+    assign JumpAddress = {PC_4[31:28], JumpAddress_wire[27:0]};
 
 endmodule // EXBlackBox
