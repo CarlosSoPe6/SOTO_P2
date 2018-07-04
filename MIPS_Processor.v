@@ -376,14 +376,14 @@ ex_mem_pipelineRegister
 (
 	// General signals
 	.clk(clk),
-	.reset(reset)
+	.reset(reset),
 
 	// Input signals
 	.in_Zero(MEM_Zero_wire),
     .in_ALUResult(EX_ALUResult_wire),
     .in_ReadData2(EX_ReadData2_wire),
 	.in_JumpAddress(EX_JumpAddress_wire),
-	.in_BranchAddress(EX_BranchAddress_wire)
+	.in_BranchAddress(EX_BranchAddress_wire),
     .in_PC_4(EX_PC_4_wire),
 	.in_CtrlJump(EX_JumpControl_wire),
     .in_CtrlMemRead(EX_MemRead_wire),
