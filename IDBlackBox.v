@@ -24,9 +24,15 @@ module IDBlackBox
 	output RegisterOrPC_wire,
 	output ALUMemOrPC_wire,
 	output JumpControl_wire,
+	
+	output [NBits-1:0] ReadData1_wire,
+	output [NBits-1:0] ReadData2_wire,
+	output [NBits-1:0] InmmediateExtend_wire,
+	output [NBits-1:0] ShamtExtend_wire
 );
 
 wire [NBits-1:0] New_ALUMemOrPC_wire;
+wire [NBits-1:0] WriteRegister_wire;
  
 
 Control
