@@ -190,70 +190,6 @@ integer ALUStatus;
 //******************************************************************/
 //******************************************************************/
 
-ProgramMemory
-#(
-	.MEMORY_DEPTH(MEMORY_DEPTH)
-)
-ROMProgramMemory
-(
-	.Address(Real_PC_Wire),
-	.Instruction(Instruction_wire)
-);
-
-
-PC_Register
-ProgramCounter(
-	.clk(clk),
-	.reset(reset),
-	.NewPC(PCOrReg_New_Value_wire),
-	.PCValue(PC_wire)
-);
-
-
-Adder32bits
-PC_Minus_h40k
-(
-	.Data0(PC_wire),
-	.Data1(32'hFFC0_0000),
-	.Result(Real_PC_Wire)
-);
-
-
-
-Adder32bits
-PC_Puls_4
-(
-	.Data0(PC_wire),
-	.Data1(4),
-	.Result(PC_4_wire)
-);
-
-
-Multiplexer2to1
-#(
-	.NBits(32)
-)
-MUX_ForRegisterOrPC
-(
-	.Selector(RegisterOrPC_wire),
-	.MUX_Data0(PC_New_Value_wire),
-	.MUX_Data1(RegisterOrShamt_wire),
-	
-	.MUX_Output(PCOrReg_New_Value_wire)
-
-);
-
-Multiplexer2to1
-#(
-	.NBits(32)
-)
-MuxForNextPcOrJump
-(
-	.Selector(JumpControl_wire),
-	.MUX_Output(PC_New_Value_wire),
-	.MUX_Data0(PCOrBranch_wire),
-	.MUX_Data1({PC_4_wire[31:28], JumpAddress_wire[27:0]})
-);
 
 //******************************************************************/
 //******************************************************************/
@@ -466,6 +402,33 @@ MuxForReadMemoryOrALU
 	.MUX_Data1(MemoryData_wire),
 	.MUX_Output(MemoryDataOrALU_wire)
 );
+
+Multiplexer2to1
+#(
+	.NBits(NBits)
+)
+MUX_ForRegisterOrPC
+(
+	.Selector(RegisterOrPC_wire),
+	.MUX_Data0(PC_New_Value_wire),
+	.MUX_Data1(RegisterOrShamt_wire),
+	
+	.MUX_Output(PCOrReg_New_Value_wire)
+
+);
+
+Multiplexer2to1
+#(
+	.NBits(NBits)
+)
+MuxForNextPcOrJump
+(
+	.Selector(JumpControl_wire),
+	.MUX_Output(PC_New_Value_wire),
+	.MUX_Data0(PCOrBranch_wire),
+	.MUX_Data1({PC_4_wire[31:28], JumpAddress_wire[27:0]})
+);
+
 
 assign ALUResultOut = ALUResult_wire;
 
