@@ -143,6 +143,7 @@ wire [31:0] EX_InmmediateExtend_wire;
 wire [31:0] ID_ShamtExtend_wire;
 wire [31:0] EX_ShamtExtend_wire;
 
+
 //******************************************************************/
 //******************************************************************/
 // Stage 3
@@ -240,23 +241,23 @@ id_blackBox
 	.clk(clk),
 	.reset(reset),
 	.Instruction(ID_Instruction_wire),
-	.WriteRegister(WB_WriteRegister_wire),
+	.in_WriteRegister(WB_WriteRegister_wire),
 	.WriteData(WB_ALUMemOrPCData_wire),
-	.ALUMemOrPC(EX_ALUMemOrPC_wire),
+	.in_ALUMemOrPC(EX_ALUMemOrPC_wire),
 
 	.BranchNE(ID_BranchNE_wire),
 	.BranchEQ(ID_BranchEQ_wire),
 	.ALUOp(ID_ALUOp_wire),
 	.ALUSrc(ID_ALUSrc_wire),
-	.RegWrite(WB_RegWrite_wire),
+	.in_RegWrite(WB_RegWrite_wire),
 	.MemWrite(ID_MemWrite_wire),
 	.MemRead(ID_MemRead_wire),
 	.MemtoReg(ID_MemtoReg_wire),
 	.ShamtSelector(ID_ShamtSelector_wire),
 	.RegisterOrPC(ID_RegisterOrPC_wire),
 	.JumpControl(ID_JumpControl_wire),
-	.RegWrite(ID_RegWrite_wire),
-	.WriteRegister(ID_WriteRegister_wire),
+	.out_RegWrite(ID_RegWrite_wire),
+	.out_WriteRegister(ID_WriteRegister_wire),
 	.ReadData1(ID_ReadData1_wire),
 	.ReadData2(ID_ReadData2_wire),
 	.InmmediateExtend(ID_InmmediateExtend_wire),
