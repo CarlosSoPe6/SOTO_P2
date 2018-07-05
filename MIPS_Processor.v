@@ -232,7 +232,7 @@ IDBlackBox
 (
 	.clk(clk),
 	.reset(reset),
-	.Instruction_wire(IF_Instruction_wire),
+	.Instruction_wire(ID_Instruction_wire),
 	.New_WriteRegister_wire(WB_New_WriteRegister_wire),
 	
 	.RegDst_wire(ID_RegDst_wire),
@@ -254,6 +254,37 @@ IDBlackBox
 	.InmmediateExtend_wire(ID_InmmediateExtend_wire),
 	.ShamtExtend_wire(ID_ShamtExtend_wire)
 );
+
+ID_EX_PipelineRegister
+#(
+	.NBits(32)
+	
+)
+id_ex_pipelineRegister
+(
+    .clk(clk),
+    .reset(reset),
+	 .in_ShamtSelector(ID_ShamtSelector_wire),
+	 .in_ALUSrc(ID_ALUSrc_wire),
+	 .in_ALUOp(ID_ALUOp_wire),
+	 .in_PC_4(ID_PC_4_wire),
+    .in_Instruction(ID_Instruction_wire),
+	 .in_ReadData1(ID_ReadData1_wire),
+	 .in_ReadData2(ID_ReadData2_wire),
+	 .in_ShamtExtend(ID_ShamtExtend_wire),
+	 .in_InmmediateExtend(ID_InmmediateExtend_wire),
+    
+	 .out_ShamtSelector(EX_ShamtSelector_wire),
+	 .out_ALUSrc(EX_ALUSrc_wire),
+	 .out_ALUOp(EX_ALUOp_wire),
+	 .out_PC_4(EX_PC_4_wire),
+    .out_Instruction(EX_Instruction_wire),
+    .out_ReadData1(EX_ReadData1_wire),
+	 .out_ReadData2(EX_ReadData2_wire),
+	 .out_ShamtExtend(EX_ShamtExtend_wire),
+	 .out_InmmediateExtend(EX_InmmediateExtend_wire)
+);
+
 
 //******************************************************************/
 //******************************************************************/
