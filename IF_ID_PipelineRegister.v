@@ -14,10 +14,9 @@ module IF_ID_PipelineRegister
     output [NBits-1:0] out_Instruction
 );
 
-    reg PC_4;
-    reg Instruction;
+    reg [NBits-1:0] PC_4;
+    reg [NBits-1:0] Instruction;
     
-
     always @(negedge reset or negedge clk) 
     begin
         if(reset==0)

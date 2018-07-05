@@ -9,7 +9,7 @@ module IDBlackBox
 	input reset,
 	input in_RegWrite,
 	input [NBits-1:0] Instruction,
-	input [NBits-1:0] in_WriteRegister,
+	input [4:0] in_WriteRegister,
 	input [NBits-1:0] WriteData,
 	input in_ALUMemOrPC,
 	
@@ -26,14 +26,14 @@ module IDBlackBox
 	output out_ALUMemOrPC,
 	output JumpControl,
 	
-	output [NBits-1:0] out_WriteRegister,
+	output [4:0] out_WriteRegister,
 	output [NBits-1:0] ReadData1,
 	output [NBits-1:0] ReadData2,
 	output [NBits-1:0] InmmediateExtend,
 	output [NBits-1:0] ShamtExtend
 );
 
-wire [NBits-1:0] WriteRegister_wire;
+wire [4:0] WriteRegister_wire;
 wire RegDst_wire;
  
 
