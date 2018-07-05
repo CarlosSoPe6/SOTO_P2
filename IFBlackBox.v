@@ -6,7 +6,7 @@ module IFBlackBox
 (
 input clk,
 input reset,
-input [NBits-1:0] PCOrReg_New_Value_wire,
+input [NBits-1:0] NewPC,
 
 
 output [NBits-1:0] Instruction_wire,
@@ -31,7 +31,7 @@ PC_Register
 ProgramCounter(
 	.clk(clk),
 	.reset(reset),
-	.NewPC(PCOrReg_New_Value_wire),
+	.NewPC(NewPC),
 	.PCValue(PC_wire)
 );
 
