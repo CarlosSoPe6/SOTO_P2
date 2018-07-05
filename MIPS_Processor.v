@@ -127,6 +127,7 @@ wire MEM_JumpControl_wire;
 wire WB_JumpControl_wire;
 
 wire [2:0] ID_ALUOp_wire;
+wire [2:0] EX_ALUOp_wire;
 
 wire [31:0] ID_ReadData1_wire;
 wire [31:0] EX_ReadData1_wire;
