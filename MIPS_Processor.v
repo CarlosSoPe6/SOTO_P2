@@ -144,9 +144,6 @@ wire [31:0] EX_InmmediateExtend_wire;
 wire [31:0] ID_ShamtExtend_wire;
 wire [31:0] EX_ShamtExtend_wire;
 
-//Pipeline Resgiter 2
-wire [31:0] Instruction_P2;
-wire [31:0] PC_4_P2;
 
 //******************************************************************/
 //******************************************************************/
@@ -170,9 +167,6 @@ wire [31:0] WB_JumpAddress_wire;
 wire [31:0] EX_BranchAddress_wire;
 wire [31:0] MEM_BranchAddress_wire;
 
-//Pipeline Resgiter 3
-wire [31:0] PC_4_P3;
-wire [31:0] ALUResultOut_P3;
 
 //******************************************************************/
 //******************************************************************/
