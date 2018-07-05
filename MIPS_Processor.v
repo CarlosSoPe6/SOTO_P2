@@ -148,6 +148,7 @@ wire MEM_Zero_wire;
 
 wire [31:0] EX_ALUResult_wire;
 wire [31:0] MEM_ALUResult_wire;
+wire [31:0] WB_ALUResult_wire;
 
 wire [31:0] EX_JumpAddress_wire;
 wire [31:0] MEM_JumpAddress_wire;
@@ -205,9 +206,8 @@ IFBlackBox
 IF_ID_PipelineRegister
 #(
 	.NBits(32)
-if_id_pipelineRegister
 )
-
+if_id_pipelineRegister
 (
     .clk(clk),
     .reset(reset),
@@ -395,14 +395,16 @@ mem_wb_pipelineregister
     .in_JumpAddress(MEM_JumpAddress_wire),
     .in_MemoryData(MEM_MemoryData_wire),
     .in_PCOrBranch(MEM_PCOrBranch_wire),
+	.in_ALUResult(MEM_ALUResult_wire),
     .in_CtrlALUOrMem(MEM_MemtoReg_wire),
     .in_CtrlJump(MEM_JumpControl_wire),
     .in_CtrlRegisterOrPC(MEM_RegisterOrPC_wire),
     .in_CtrlALUMemOrPC(MEM_ALUMemOrPC_wire),
-    
+
 	.out_JumpAddress(WB_JumpAddress_wire),
     .out_MemoryData(WB_MemoryData_wire),
     .out_PCOrBranch(WB_PCOrBranch_wire),
+	.out_ALUResult(WB_ALUResult_wire),
     .out_CtrlALUOrMem(WB_MemtoReg_wire),
     .out_CtrlJump(WB_JumpControl_wire),
     .out_CtrlRegisterOrPC(WB_RegisterOrPC_wire),
@@ -468,7 +470,7 @@ MUX_ForRegisterOrPC
 
 );
 
-assign ALUResultOut = EX_ALUResult_wire;
+assign ALUResultOut = WB_ALUResult_wire;
 
 endmodule
 
