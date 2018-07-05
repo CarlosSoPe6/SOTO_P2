@@ -206,9 +206,8 @@ IFBlackBox
 IF_ID_PipelineRegister
 #(
 	.NBits(32)
-if_id_pipelineRegister
 )
-
+if_id_pipelineRegister
 (
     .clk(clk),
     .reset(reset),

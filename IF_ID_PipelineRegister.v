@@ -20,7 +20,7 @@ module IF_ID_PipelineRegister
 
     always @(negedge reset or negedge clk) 
     begin
-        if(reset)
+        if(reset==0)
         begin
             PC_4 <= 0;
             Instruction <= 0;
