@@ -52,9 +52,11 @@ module MEM_WB_PipelineRegister(
             CtrlJump <= 0;
             CtrlRegisterOrPC <= 0;
             CtrlALUMemOrPc <= 0;
+            ALUResult <= 0;
         end
         else
         begin
+            ALUResult <= in_ALUResult;
             ReadData1 <= in_ReadData1;
             JumpAddress <= in_JumpAddress;
             MemoryData <= in_MemoryData;
@@ -68,6 +70,7 @@ module MEM_WB_PipelineRegister(
         end
     end
 
+    assign out_ALUResult = ALUResult;
     assign out_ReadData1 = ReadData1;
     assign out_JumpAddress = JumpAddress;
     assign out_MemoryData = MemoryData;
