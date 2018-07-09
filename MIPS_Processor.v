@@ -149,10 +149,6 @@ wire [31:0] EX_ShamtExtend_wire;
 //******************************************************************/
 // Stage 3
 
-wire [31:0] RegisterOrShamt_wire;
-wire [31:0] ReadData2OrInmmediate_wire;
-wire [3:0] ALUOperation_wire;
-
 wire EX_Zero_wire;
 wire MEM_Zero_wire;
 
@@ -458,56 +454,27 @@ mem_wb_pipelineregister
 //******************************************************************/
 //******************************************************************/
 
-Multiplexer2to1
+WBBlackBox
 #(
 	.NBits(32)
 )
-MuxForReadMemoryOrALU
+wbStage
 (
-	.Selector(WB_MemtoReg_wire),
-	.MUX_Data0(WB_ALUResult_wire),
-	.MUX_Data1(WB_MemoryData_wire),
+	.clk(clk),
+	.reset(reset),
+	.in_MemtoReg(WB_MemtoReg_wire),
+	.in_ALUMemOrPC(WB_ALUMemOrPC_wire),
+	.in_JumpControl(WB_JumpControl_wire),
+	.in_RegisterOrPC(WB_RegisterOrPC_wire),
 
-	.MUX_Output(WB_MemoryDataOrALU_wire)
-);
+	.in_ALUResult(WB_ALUResult_wire),
+	.in_MemoryData(WB_MemoryData_wire),
+	.in_PCOrBranch(WB_PCOrBranch_wire),
+	.in_JumpAddress(WB_JumpAddress_wire),
+	.in_ReadData1(WB_ReadData1_wire),
 
-Multiplexer2to1
-#(
-	.NBits(32)
-)
-MUX_ForALUMemOrPC
-(
-	.Selector(WB_ALUMemOrPC_wire),
-	.MUX_Data0(WB_MemoryDataOrALU_wire),
-	.MUX_Data1(WB_PCOrBranch_wire),
-	
-	.MUX_Output(WB_ALUMemOrPCData_wire)
-);
-
-Multiplexer2to1
-#(
-	.NBits(32)
-)
-MuxForNextPcOrJump
-(
-	.Selector(WB_JumpControl_wire),
-	.MUX_Data0(WB_PCOrBranch_wire),
-	.MUX_Data1(WB_JumpAddress_wire),
-
-	.MUX_Output(WB_PCOrJump)
-);
-
-Multiplexer2to1
-#(
-	.NBits(32)
-)
-MUX_ForRegisterOrPC
-(
-	.Selector(WB_RegisterOrPC_wire),
-	.MUX_Data0(WB_PCOrJump),
-	.MUX_Data1(WB_ReadData1_wire),
-	
-	.MUX_Output(WB_NewPC)
+	.out_ALUMemOrPCData(WB_ALUMemOrPCData_wire),
+	.out_NewPC(WB_NewPC)
 );
 
 assign ALUResultOut = WB_ALUResult_wire;
