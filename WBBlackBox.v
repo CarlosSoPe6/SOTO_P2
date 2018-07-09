@@ -1,4 +1,4 @@
-module WBBlackBok
+module WBBlackBox
 #(
 	parameter NBits = 512
 )
@@ -75,4 +75,4 @@ module WBBlackBok
         .MUX_Output(out_NewPC)
     );
 
-endmodule // WBBlackBok
+endmodule // WBBlackBox
