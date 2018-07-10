@@ -328,6 +328,8 @@ exStage
 	.ALUFunction(EX_Instruction_wire[5:0]),
 	.JumpNoShifted(EX_Instruction_wire[25:0]),
 	.PC_4(EX_PC_4_wire),
+	.ALUMemOrPCData(WB_ALUMemOrPCData_wire),
+   .DataAddress(MEM_DataAddress_wire),
 
 	.BranchAddress(EX_BranchAddress_wire),
 	.JumpAddress(EX_JumpAddress_wire),
