@@ -25,7 +25,6 @@ module EXBlackBox
     output [NBits-1:0] BranchAddress,
     output [NBits-1:0] JumpAddress,
     output [NBits-1:0] ALUResult,
-    output [NBits-1:0] out_PC_4,
     output Zero
 );
 

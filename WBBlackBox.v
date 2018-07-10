@@ -1,28 +1,26 @@
 module WBBlackBox
 #(
-	parameter NBits = 512
+	parameter NBits = 32
 )
 (
   input clk,
   input reset,
 
-  input in_MemtoReg,
-  input in_ALUMemOrPC,
-  input in_JumpControl,
-  input in_RegisterOrPC,
+    input MemtoReg,
+    input ALUMemOrPC,
+    input RegisterOrPC,
 
-  input [NBits-1:0] in_ALUResult,
-  input [NBits-1:0] in_MemoryData,
-  input [NBits-1:0] in_PCOrBranch,
-  input [NBits-1:0] in_JumpAddress,
-  input [NBits-1:0] in_ReadData1,
+    input [NBits-1:0] PC_4,
+    input [NBits-1:0] in_NewPC,
+    input [NBits-1:0] ReadData1,
+    input [NBits-1:0] ALUResult,
+    input [NBits-1:0] MemoryData,
 
-  output [NBits-1:0] out_ALUMemOrPCData,
-  output [NBits-1:0] out_NewPC
+    output [NBits-1:0] out_NewPC,
+    output [NBits-1:0] ALUMemOrPCData
 );
 
     wire [NBits-1:0] MemoryDataOrALU_wire;
-    wire [NBits-1:0] PCOrJump_wire;
 
     Multiplexer2to1
     #(
@@ -30,9 +28,9 @@ module WBBlackBox
     )
     MuxForReadMemoryOrALU
     (
-        .Selector(in_MemtoReg),
-        .MUX_Data0(in_ALUResult),
-        .MUX_Data1(in_MemoryData),
+        .Selector(MemtoReg),
+        .MUX_Data0(ALUResult),
+        .MUX_Data1(MemoryData),
         .MUX_Output(MemoryDataOrALU_wire)
     );
 
@@ -42,24 +40,11 @@ module WBBlackBox
     )
     MUX_ForALUMemOrPC
     (
-        .Selector(in_ALUMemOrPC),
+        .Selector(ALUMemOrPC),
         .MUX_Data0(MemoryDataOrALU_wire),
-        .MUX_Data1(in_PCOrBranch),
+        .MUX_Data1(PC_4),
         
-        .MUX_Output(out_ALUMemOrPCData)
-    );
-
-    Multiplexer2to1
-    #(
-        .NBits(NBits)
-    )
-    MuxForNextPcOrJump
-    (
-        .Selector(in_JumpControl),
-        .MUX_Data0(in_PCOrBranch),
-        .MUX_Data1(in_JumpAddress),
-
-        .MUX_Output(PCOrJump_wire)
+        .MUX_Output(ALUMemOrPCData)
     );
 
     Multiplexer2to1
@@ -68,9 +53,9 @@ module WBBlackBox
     )
     MUX_ForRegisterOrPC
     (
-        .Selector(in_RegisterOrPC),
-        .MUX_Data0(PCOrJump_wire),
-        .MUX_Data1(in_ReadData1),
+        .Selector(RegisterOrPC),
+        .MUX_Data0(in_NewPC),
+        .MUX_Data1(ReadData1),
         
         .MUX_Output(out_NewPC)
     );

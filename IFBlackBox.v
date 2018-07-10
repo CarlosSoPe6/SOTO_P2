@@ -11,7 +11,7 @@ module IFBlackBox
 	input [NBits-1:0] BranchOrJumpAddress,
 
 	output [NBits-1:0] Instruction_wire,
-	output [NBits-1:0] PC_4_wire
+	output [NBits-1:0] PC_4
 );
 
 	wire [NBits-1:0] PC_4_Aux_wire;
@@ -68,5 +68,7 @@ module IFBlackBox
 		.MUX_Data1(BranchOrJumpAddress),
 		.MUX_Output(NewPC_wire)
 	);
+
+	assign PC_4 = PC_4_Aux_wire;
 
 endmodule

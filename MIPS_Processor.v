@@ -62,6 +62,8 @@ wire [31:0] IF_PC_4_wire;
 wire [31:0] ID_PC_4_wire;
 wire [31:0] EX_PC_4_wire;
 wire [31:0] MEM_PC_4_wire;
+wire [31:0] MEM_NewPC_wire;
+wire [31:0] WB_NewPC_wire;
 wire [31:0] WB_BranchOrJumpAddress;
 wire [31:0] WB_PCOrJump; 
 
@@ -189,10 +191,8 @@ wire [31:0] WB_ALUMemOrPCData_wire;
 
 wire Flush_wire;
 wire Stall_wire;
-
-integer ALUStatus;
-
-
+wire MEM_BranchControl_wire;
+wire WB_BranchControl_wire;
 //******************************************************************/
 //******************************************************************/
 //*****************************STAGE 1******************************/
@@ -208,12 +208,12 @@ if_blackBox
 (
 	.clk(clk),
 	.reset(reset),
-	.PCSelector(0),
+	.PCSelector(WB_BranchControl_wire),
 	.BranchOrJumpAddress(WB_BranchOrJumpAddress),
-	.PCWrite(~Flush_wire),
+	.PCWrite(~Stall_wire),
 
 	.Instruction_wire(IF_Instruction_wire),
-	.PC_4_wire(IF_PC_4_wire)
+	.PC_4(IF_PC_4_wire)
 );
 
 IF_ID_PipelineRegister
@@ -224,7 +224,7 @@ if_id_pipelineRegister
 (
     .clk(clk),
     .reset(reset),
-	.RegWrite(~Flush_wire),
+	.RegWrite(~Stall_wire),
     .in_PC_4(IF_PC_4_wire),
     .in_Instruction(IF_Instruction_wire),
     
@@ -420,6 +420,7 @@ memStage
 	.reset(reset),
 	.MemWrite(MEM_MemWrite_wire),
 	.MemRead(MEM_MemRead_wire),
+	.JumpControl(MEM_JumpControl_wire),
 	.Zero(MEM_Zero_wire),
 	.BranchEquals(MEM_BranchEQ_wire),
     .BranchNotEquals(MEM_BranchNE_wire),
@@ -427,10 +428,12 @@ memStage
 	.WriteData(MEM_WriteData_wire),
 	.PC_4(MEM_PC_4_wire),
 	.BranchAddress(MEM_BranchAddress_wire),
+    .JumpAddress(MEM_JumpAddress_wire),
 
+	.BranchControl(MEM_BranchControl_wire),
 	.MemoryData(MEM_MemoryData_wire),
-	.PCOrBranch(MEM_PCOrBranch_wire),
-	.DataAddress(MEM_DataAddress_wire)
+	.DataAddress(MEM_DataAddress_wire),
+	.NewPC(MEM_NewPC_wire)
 );	
 
 MEM_WB_PipelineRegister
@@ -438,24 +441,24 @@ mem_wb_pipelineregister
 (
 	.clk(clk),
     .reset(reset),
-    .in_JumpAddress(MEM_JumpAddress_wire),
+	.in_PC_4(MEM_PC_4_wire),
+	.in_NewPC(MEM_NewPC_wire),
     .in_MemoryData(MEM_MemoryData_wire),
-    .in_PCOrBranch(MEM_PCOrBranch_wire),
 	.in_ALUResult(MEM_ALUResult_wire),
+	.in_CtrlBranchControl(MEM_BranchControl_wire),
     .in_CtrlALUOrMem(MEM_MemtoReg_wire),
-    .in_CtrlJump(MEM_JumpControl_wire),
     .in_CtrlRegisterOrPC(MEM_RegisterOrPC_wire),
     .in_CtrlALUMemOrPC(MEM_ALUMemOrPC_wire),
 	.in_CtrlRegWrite(MEM_RegWrite_wire),
 	.in_WriteRegister(MEM_WriteRegister_wire),
 	.in_ReadData1(MEM_ReadData1_wire),
 
-	.out_JumpAddress(WB_JumpAddress_wire),
+	.out_PC_4(WB_PC_4_wire),
+	.out_NewPC(WB_NewPC_wire),
     .out_MemoryData(WB_MemoryData_wire),
-    .out_PCOrBranch(WB_PCOrBranch_wire),
 	.out_ALUResult(WB_ALUResult_wire),
+	.out_CtrlBranchControl(WB_BranchControl_wire),
     .out_CtrlALUOrMem(WB_MemtoReg_wire),
-    .out_CtrlJump(WB_JumpControl_wire),
     .out_CtrlRegisterOrPC(WB_RegisterOrPC_wire),
     .out_CtrlALUMemOrPC(WB_ALUMemOrPC_wire),
 	.out_CtrlRegWrite(WB_RegWrite_wire),
@@ -477,18 +480,17 @@ wbStage
 (
 	.clk(clk),
 	.reset(reset),
-	.in_MemtoReg(WB_MemtoReg_wire),
-	.in_ALUMemOrPC(WB_ALUMemOrPC_wire),
-	.in_JumpControl(WB_JumpControl_wire),
-	.in_RegisterOrPC(WB_RegisterOrPC_wire),
+	.MemtoReg(WB_MemtoReg_wire),
+	.ALUMemOrPC(WB_ALUMemOrPC_wire),
+	.RegisterOrPC(WB_RegisterOrPC_wire),
 
-	.in_ALUResult(WB_ALUResult_wire),
-	.in_MemoryData(WB_MemoryData_wire),
-	.in_PCOrBranch(WB_PCOrBranch_wire),
-	.in_JumpAddress(WB_JumpAddress_wire),
-	.in_ReadData1(WB_ReadData1_wire),
+	.PC_4(WB_PC_4_wire),
+	.in_NewPC(WB_NewPC_wire),
+	.ALUResult(WB_ALUResult_wire),
+	.MemoryData(WB_MemoryData_wire),
+	.ReadData1(WB_ReadData1_wire),
 
-	.out_ALUMemOrPCData(WB_ALUMemOrPCData_wire),
+	.ALUMemOrPCData(WB_ALUMemOrPCData_wire),
 	.out_NewPC(WB_BranchOrJumpAddress)
 );
 
@@ -516,7 +518,8 @@ hazardDetectionUnit
 	.ID_EX_RegisterRt(EX_Instruction_wire[20:16]),
 	.IF_ID_RegisterRs(ID_Instruction_wire[25:21]),
 	.IF_ID_RegisterRt(ID_Instruction_wire[20:16]),
-	
+	.BranchControl(WB_BranchControl_wire),
+
 	.Stall(Stall_wire),
 	.Flush(Flush_wire)
 );
