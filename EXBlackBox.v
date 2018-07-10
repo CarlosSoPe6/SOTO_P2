@@ -16,10 +16,10 @@ module EXBlackBox
     input [5:0] ALUFunction,
     input [25:0] JumpNoShifted,
     input [NBits-1:0] PC_4,
-	 input [1:0] ForwardB,
-	 input [1:0] ForwardA,
-	 input [NBits-1:0] ALUMemOrPCData,
-    input [NBits-1:0] DataAddress,
+    input [1:0] ForwardB,
+    input [1:0] ForwardA,
+    input [NBits-1:0] ALUMemOrPCData,
+    input [NBits-1:0] MEM_ALUResult,
 
     output [NBits-1:0] BranchAddress,
     output [NBits-1:0] JumpAddress,
@@ -32,7 +32,7 @@ module EXBlackBox
     wire [NBits-1:0] BranchShifter_wire;
     wire [NBits-1:0] JumpAddress_wire;
     wire [NBits-1:0] Real_RegisterOrShamt;
-	 wire [NBits-1:0] Real_ReadData2OrInmmediate;
+    wire [NBits-1:0] Real_ReadData2OrInmmediate;
 	 
     ALUControl
     ArithmeticLogicUnitControl
@@ -82,9 +82,10 @@ module EXBlackBox
 	forwardingA
 	(
 		.Selector(ForwardA),
+
 		.MUX_Data0(RegisterOrShamt),
 		.MUX_Data1(ALUMemOrPCData),
-		.MUX_Data2(DataAddress),
+		.MUX_Data2(MEM_ALUResult),
 	
 		.MUX_Output(Real_RegisterOrShamt)
 
@@ -97,9 +98,10 @@ module EXBlackBox
 	forwardingB
 	(
 		.Selector(ForwardB),
+
 		.MUX_Data0(ReadData2OrInmmediate),
 		.MUX_Data1(ALUMemOrPCData),
-		.MUX_Data2(DataAddress),
+		.MUX_Data2(MEM_ALUResult),
 	
 		.MUX_Output(Real_ReadData2OrInmmediate)
 

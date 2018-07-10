@@ -18,7 +18,7 @@ module MEMBlackBox
 
     output [NBits-1:0] MemoryData,
     output [NBits-1:0] PCOrBranch,
-	 output [NBits-1:0] DataAddress
+    output [NBits-1:0] DataAddress
 
 );
 

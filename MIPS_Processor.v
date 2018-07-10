@@ -328,7 +328,7 @@ exStage
 	.JumpNoShifted(EX_Instruction_wire[25:0]),
 	.PC_4(EX_PC_4_wire),
 	.ALUMemOrPCData(WB_ALUMemOrPCData_wire),
-   .DataAddress(MEM_DataAddress_wire),
+	.MEM_ALUResult(MEM_ALUResult_wire),
 
 	.BranchAddress(EX_BranchAddress_wire),
 	.JumpAddress(EX_JumpAddress_wire),
@@ -479,8 +479,8 @@ forwardingunit
 	.MEM_WB_RegWrite(WB_RegWrite_wire),
 	.ID_EX_RegisterRs(EX_Instruction_wire[25:21]),
 	.ID_EX_RegisterRt(EX_Instruction_wire[20:16]),
-	.EX_MEM_RegisterRd(EX_WriteRegister_wire),
-	.MEM_WB_RegisterRd(MEM_WriteRegister_wire),
+	.EX_MEM_RegisterRd(MEM_WriteRegister_wire),
+	.MEM_WB_RegisterRd(WB_WriteRegister_wire),
 	
 	.ForwardA(ForwardA_wire),
 	.ForwardB(ForwardB_wire)
