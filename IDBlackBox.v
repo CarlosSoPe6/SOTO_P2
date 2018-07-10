@@ -49,7 +49,7 @@ ControlUnit
 	.BranchNE(BranchNE),
 	.BranchEQ(BranchEQ),
 	.ALUOp(ALUOp),
-	.ALUSrc(ALUSrc),
+	.ALUSrc(ALUSrc_wire),
 	.RegWrite(out_RegWrite),
 	.MemWrite(MemWrite),
 	.MemRead(MemRead),

@@ -252,14 +252,13 @@ id_blackBox
 	.out_WriteRegister(ID_WriteRegister_wire),
 	.ReadData1(ID_ReadData1_wire),
 	.ReadData2(ID_ReadData2_wire),
-	.ReadData2OrInmmediate(),
+	.ReadData2OrInmmediate(ID_ReadData2OrInmmediate_wire),
 	.RegisterOrShamt(ID_RegisterOrShamt_wire)
 );
 
 ID_EX_PipelineRegister
 #(
 	.NBits(32)
-	
 )
 id_ex_pipelineRegister
 (

@@ -11,9 +11,13 @@ add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_id_pipelineRegis
 add wave -noupdate -divider ID/EX
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/in_ALUOp
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/in_ReadData1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/in_RegisterOrShamt
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/in_ReadData2
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/out_ALUOp
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/out_ReadData2OrInmmediate
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/out_ReadData1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/in_ReadData2OrInmmediate
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/out_RegisterOrShamt
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/id_ex_pipelineRegister/out_ALUOp
 add wave -noupdate -divider EX/MEM
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegister/in_ALUResult
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegister/in_ReadData1
@@ -22,7 +26,7 @@ add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegi
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegister/out_ReadData1
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegister/out_ReadData2
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {97 ps} 0}
+WaveRestoreCursors {{Cursor 1} {4 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -38,4 +42,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {82 ps} {114 ps}
+WaveRestoreZoom {250 ps} {282 ps}
