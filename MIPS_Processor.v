@@ -171,6 +171,8 @@ wire [31:0] WB_MemoryData_wire;
 wire [31:0] MEM_PCOrBranch_wire;
 wire [31:0] WB_PCOrBranch_wire;
 
+wire [31:0] MEM_DataAddress_wire;
+
 //******************************************************************/
 //******************************************************************/
 // Stage 5
@@ -315,7 +317,8 @@ exStage
 (
 	.clk(clk),
 	.reset(reset),
-
+	.ForwardB(ForwardB_wire),
+	.ForwardA(ForwardA_wire),
 	.ReadData1(EX_ReadData1_wire),
 	.RegisterOrShamt(EX_RegisterOrShamt_wire),
 	.ReadData2(EX_ReadData2_wire),
@@ -324,6 +327,8 @@ exStage
 	.ALUFunction(EX_Instruction_wire[5:0]),
 	.JumpNoShifted(EX_Instruction_wire[25:0]),
 	.PC_4(EX_PC_4_wire),
+	.ALUMemOrPCData(WB_ALUMemOrPCData_wire),
+   .DataAddress(MEM_DataAddress_wire),
 
 	.BranchAddress(EX_BranchAddress_wire),
 	.JumpAddress(EX_JumpAddress_wire),
@@ -356,6 +361,7 @@ ex_mem_pipelineRegister
 	.in_CtrlRegWrite(EX_RegWrite_wire),
 	.in_WriteRegister(EX_WriteRegister_wire),
 	.in_ReadData1(EX_ReadData1_wire),
+	
 
 	// Output signals
     .out_Zero(MEM_Zero_wire),
@@ -403,7 +409,8 @@ memStage
 	.BranchAddress(MEM_BranchAddress_wire),
 
 	.MemoryData(MEM_MemoryData_wire),
-	.PCOrBranch(MEM_PCOrBranch_wire)
+	.PCOrBranch(MEM_PCOrBranch_wire),
+	.DataAddress(MEM_DataAddress_wire)
 );	
 
 MEM_WB_PipelineRegister

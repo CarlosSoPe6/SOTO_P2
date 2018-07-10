@@ -44,27 +44,5 @@ begin
 			end
 end
 
-/*
-assign ForwardA =    (EX_MEM_RegWrite 
-                 and (EX_MEM_RegisterRd != 0)  
-					  and (EX_MEM_RegisterRd = ID_EX_RegisterRs))? 2'b10:
-                     
-							(MEM_WB_RegWrite 
-                 and (MEM_WB_RegisterRd != 0)  
-					  and (EX_MEM_RegisterRd != ID_EX_RegisterRs))
-					  and (MEM_WB_RegisterRd = ID_EX_RegisterRs))? 2'b01:
-					  
-					                                               2'b00;
-						
-assign ForwardB =    (EX_MEM_RegWrite 
-                 and (EX_MEM_RegisterRd != 0)  
-					  and (EX_MEM_RegisterRd = ID_EX_RegisterRt))? 2'b10:
-                     
-							(MEM_WB_RegWrite 
-                 and (MEM_WB_RegisterRd != 0)  
-					  and (EX_MEM_RegisterRd != ID_EX_RegisterRt))
-					  and (MEM_WB_RegisterRd = ID_EX_RegisterRt))? 2'b01:
-					  
-					                                               2'b00;
-*/
+
 endmodule 
