@@ -7,6 +7,7 @@ module IF_ID_PipelineRegister
 (
     input clk,
     input reset,
+    input RegWrite,
     input [NBits-1:0] in_PC_4,
     input [NBits-1:0] in_Instruction,
     
@@ -24,7 +25,7 @@ module IF_ID_PipelineRegister
             PC_4 <= 0;
             Instruction <= 0;
         end
-        else
+        else if(RegWrite == 1)
         begin
             PC_4 <= in_PC_4;
             Instruction <= in_Instruction;

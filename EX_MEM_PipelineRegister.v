@@ -4,7 +4,7 @@ module EX_MEM_PipelineRegister(
     input in_Zero,
     input [31:0] in_ALUResult,
     input [31:0] in_ReadData1,
-    input [31:0] in_ReadData2,
+    input [31:0] in_WriteData,
     input [31:0] in_JumpAddress,
     input [31:0] in_BranchAddress,
     input [31:0] in_PC_4,
@@ -22,7 +22,7 @@ module EX_MEM_PipelineRegister(
     output out_Zero,
     output [31:0] out_ALUResult,
     output [31:0] out_ReadData1,
-    output [31:0] out_ReadData2,
+    output [31:0] out_WriteData,
     output [31:0] out_JumpAddress,
     output [31:0] out_BranchAddress,
     output [31:0] out_PC_4,
@@ -40,7 +40,7 @@ module EX_MEM_PipelineRegister(
     reg Zero;
     reg [31:0] ALUResult;
     reg [31:0] ReadData1;
-    reg [31:0] ReadData2;
+    reg [31:0] WriteData;
     reg [31:0] JumpAddress;
     reg [31:0] BranchAddress;
     reg [31:0] PC_4;
@@ -61,7 +61,7 @@ module EX_MEM_PipelineRegister(
         Zero <= 0;
         ALUResult <= 0;
         ReadData1 <= 0;
-        ReadData2 <= 0;
+        WriteData <= 0;
         JumpAddress <= 0;
         BranchAddress <= 0;
         PC_4 <= 0;
@@ -81,7 +81,7 @@ module EX_MEM_PipelineRegister(
         Zero <= in_Zero;
         ALUResult <= in_ALUResult;
         ReadData1 <= in_ReadData1;
-        ReadData2 <= in_ReadData2;
+        WriteData <= in_WriteData;
         JumpAddress <= in_JumpAddress;
         BranchAddress <= in_BranchAddress;
         PC_4 <= in_PC_4;
@@ -101,7 +101,7 @@ module EX_MEM_PipelineRegister(
     assign out_Zero = Zero;
     assign out_ALUResult = ALUResult;
     assign out_ReadData1 = ReadData1;
-    assign out_ReadData2 = ReadData2;
+    assign out_WriteData = WriteData;
     assign out_JumpAddress = JumpAddress;
     assign out_BranchAddress = BranchAddress;
     assign out_PC_4 = PC_4;

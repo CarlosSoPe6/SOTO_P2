@@ -1,11 +1,11 @@
 module HazardDetectionUnit(
 	input clk,
 	input reset,
-	input ID_EX_MemRead,
-	input ID_EX_RegisterRt,
-	input IF_ID_RegisterRs,
-	input IF_ID_RegisterRt,
 	input in_BranchControl,
+	input ID_EX_MemRead,
+	input [4:0] ID_EX_RegisterRt,
+	input [4:0] IF_ID_RegisterRs,
+	input [4:0] IF_ID_RegisterRt,
 
 	output reg Stall,
 	output reg Flush
@@ -13,6 +13,9 @@ module HazardDetectionUnit(
 
 	always @(*) 
 	begin
+		Stall = 0;
+		Flush = 0;
+		
 		if 
 		(
 			ID_EX_MemRead &&
@@ -21,20 +24,12 @@ module HazardDetectionUnit(
 		begin
 			Stall = 1;
 		end
-		else
-		begin
-			Stall = 0;
-		end
 
 		// Branch not taken
 		// If the branch had to be taken flush the pipeline
 		if(in_BranchControl)
 		begin
-		  assign Flush = 1;
-		end
-		else
-		begin
-		  assign Flush = 0;
+		  Flush = 1;
 		end
 	end
 

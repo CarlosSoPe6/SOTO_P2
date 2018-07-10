@@ -12,7 +12,7 @@ module MEMBlackBox
     input BranchEquals,
     input BranchNotEquals,
     input [NBits-1:0] ALUResult,
-    input [NBits-1:0] ReadData2,
+    input [NBits-1:0] WriteData,
     input [NBits-1:0] PC_4,
     input [NBits-1:0] BranchAddress,
 
@@ -40,7 +40,7 @@ module MEMBlackBox
     )
     RAM_Memory
     (
-        .WriteData(ReadData2),
+        .WriteData(WriteData),
         .Address(Real_Data_Address_wire),
         .MemWrite(MemWrite),
         .MemRead(MemRead),

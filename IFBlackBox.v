@@ -6,8 +6,9 @@ module IFBlackBox
 (
 	input clk,
 	input reset,
-	input [NBits-1:0] NewPC,
-
+	input PCWrite,
+	input PCSelector,
+	input [NBits-1:0] BranchOrJumpAddress,
 
 	output [NBits-1:0] Instruction_wire,
 	output [NBits-1:0] PC_4_wire
@@ -16,6 +17,7 @@ module IFBlackBox
 	wire [NBits-1:0] PC_4_Aux_wire;
 	wire [NBits-1:0] Real_PC_Wire;
 	wire [NBits-1:0] PC_wire;
+	wire [NBits-1:0] NewPC_wire;
 
 	ProgramMemory
 	#(
@@ -32,7 +34,8 @@ module IFBlackBox
 	ProgramCounter(
 		.clk(clk),
 		.reset(reset),
-		.NewPC(PC_4_Aux_wire),
+		.PCWrite(PCWrite),
+		.NewPC(NewPC_wire),
 		.PCValue(PC_wire)
 	);
 
@@ -52,6 +55,18 @@ module IFBlackBox
 		.Data0(PC_wire),
 		.Data1(4),
 		.Result(PC_4_Aux_wire)
+	);
+
+	Multiplexer2to1
+	#(
+		.NBits(32)
+	)
+	mux_for_PC_selector
+	(
+		.Selector(PCSelector),
+		.MUX_Data0(PC_4_Aux_wire),
+		.MUX_Data1(BranchOrJumpAddress),
+		.MUX_Output(NewPC_wire)
 	);
 
 endmodule

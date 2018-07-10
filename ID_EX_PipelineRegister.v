@@ -11,9 +11,11 @@ module ID_EX_PipelineRegister
 	input [NBits-1:0] in_Instruction,
 	input [NBits-1:0] in_ReadData1,
 	input [NBits-1:0] in_ReadData2,
-	input [NBits-1:0] in_RegisterOrShamt,
-	input [NBits-1:0] in_ReadData2OrInmmediate,
+	input [NBits-1:0] in_ShamtExtend,
+	input [NBits-1:0] in_InmmediateExtend,
 	input [4:0] in_WriteRegister,
+	input in_CtrlShamtSelector,
+	input in_CtrlALUSrc,
 	input in_CtrlRegWrite,
 	input in_CtrlJump,
     input in_CtrlMemRead,
@@ -29,9 +31,12 @@ module ID_EX_PipelineRegister
 	output [NBits-1:0] out_Instruction,
 	output [NBits-1:0] out_ReadData1,
 	output [NBits-1:0] out_ReadData2,
-	output [NBits-1:0] out_RegisterOrShamt,
+	output [NBits-1:0] out_ShamtExtend,
 	output [NBits-1:0] out_ReadData2OrInmmediate,
+	output [NBits-1:0] out_InmmediateExtend,
 	output [4:0] out_WriteRegister,
+	output out_CtrlShamtSelector,
+	output out_CtrlALUSrc,
 	output out_CtrlRegWrite,
 	output out_CtrlJump,
     output out_CtrlMemRead,
@@ -48,10 +53,12 @@ module ID_EX_PipelineRegister
     reg [NBits-1:0] Instruction;
 	reg [NBits-1:0] ReadData1;
 	reg [NBits-1:0] ReadData2;
-	reg [NBits-1:0] RegisterOrShamt;
-	reg [NBits-1:0] ReadData2OrInmmediate;
+	reg [NBits-1:0] ShamtExtend;
+	reg [NBits-1:0] InmmediateExtend;
 	reg [4:0] WriteRegister;
 
+	reg CtrlShamtSelector;
+	reg CtrlALUSrc;
 	reg CtrlJump;
 	reg CtrlMemRead;
     reg CtrlMemWrite;
@@ -71,9 +78,11 @@ module ID_EX_PipelineRegister
 			Instruction<=0;
 			ReadData1<=0;
 			ReadData2<=0;
-			RegisterOrShamt<=0;
-			ReadData2OrInmmediate<=0;
+			ShamtExtend<=0;
+			InmmediateExtend <= 0;
 			WriteRegister <= 0;
+			CtrlShamtSelector <= 0;
+			CtrlALUSrc <= 0;
             CtrlRegWrite <= 0;
 			CtrlJump <= 0;
 			CtrlMemRead <= 0;
@@ -91,9 +100,11 @@ module ID_EX_PipelineRegister
 			Instruction<=in_Instruction;
 			ReadData1<=in_ReadData1;
 			ReadData2<=in_ReadData2;
-			RegisterOrShamt<=in_RegisterOrShamt;
-			ReadData2OrInmmediate<=in_ReadData2OrInmmediate;
+			ShamtExtend<=in_ShamtExtend;
+			InmmediateExtend<=in_InmmediateExtend;
 			WriteRegister <= in_WriteRegister;
+			CtrlShamtSelector <= in_CtrlShamtSelector;
+			CtrlALUSrc <= in_CtrlALUSrc;
 			CtrlRegWrite <= in_CtrlRegWrite;
 			CtrlJump <= in_CtrlJump;
 			CtrlMemRead <= in_CtrlMemRead;
@@ -111,10 +122,12 @@ module ID_EX_PipelineRegister
 	assign out_Instruction = Instruction;
 	assign out_ReadData1 = ReadData1;
 	assign out_ReadData2 = ReadData2;
-	assign out_RegisterOrShamt = RegisterOrShamt;
-	assign out_ReadData2OrInmmediate = ReadData2OrInmmediate;
+	assign out_ShamtExtend = ShamtExtend;
+	assign out_InmmediateExtend = InmmediateExtend;
 	assign out_WriteRegister = WriteRegister;
 
+	assign out_CtrlShamtSelector = CtrlShamtSelector;
+	assign out_CtrlALUSrc = CtrlALUSrc;
     assign out_CtrlRegWrite = CtrlRegWrite;
 	assign out_CtrlJump = CtrlJump;
     assign out_CtrlMemRead = CtrlMemRead;
