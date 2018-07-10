@@ -17,7 +17,8 @@ module MEMBlackBox
     input [NBits-1:0] BranchAddress,
 
     output [NBits-1:0] MemoryData,
-    output [NBits-1:0] PCOrBranch
+    output [NBits-1:0] PCOrBranch,
+	 output [NBits-1:0] DataAddress
 
 );
 
@@ -68,6 +69,8 @@ module MEMBlackBox
         .MUX_Data1(BranchAddress)
     );
 
+	 assign DataAddress = Real_Data_Address_wire;
+	 
 endmodule // MEMBlackBox
 
     
