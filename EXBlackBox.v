@@ -8,10 +8,10 @@ module EXBlackBox
 
     input ShamtSelector,
     input [NBits-1:0] ReadData1,
-    input [NBits-1:0] ShamtExtend,
+    input [NBits-1:0] RegisterOrShamt,
     input ALUSrc,
     input [NBits-1:0] ReadData2,
-    input [NBits-1:0] InmmediateExtend,
+    input [NBits-1:0] ReadData2OrInmmediate,
     input [2:0] ALUOp,
     input [5:0] ALUFunction,
     input [25:0] JumpNoShifted,
@@ -24,38 +24,9 @@ module EXBlackBox
     output Zero
 );
 
-    wire [NBits-1:0] RegisterOrShamt_wire;
-    wire [NBits-1:0] ReadData2OrInmmediate_wire;
     wire [3:0] ALUOperation_wire;
     wire [NBits-1:0] BranchShifter_wire;
     wire [NBits-1:0] JumpAddress_wire;
-
-    Multiplexer2to1
-    #(
-        .NBits(32)
-    )
-    MUX_ForRegOrShamt
-    (
-        .Selector(ShamtSelector),
-        .MUX_Data0(ReadData1),
-        .MUX_Data1(ShamtExtend),
-        .MUX_Output(RegisterOrShamt_wire)
-    );
-
-
-    Multiplexer2to1
-    #(
-        .NBits(32)
-    )
-    MUX_ForReadDataAndInmediate
-    (
-        .Selector(ALUSrc),
-        .MUX_Data0(ReadData2),
-        .MUX_Data1(InmmediateExtend),
-        
-        .MUX_Output(ReadData2OrInmmediate_wire)
-
-    );
 
     ALUControl
     ArithmeticLogicUnitControl
@@ -69,8 +40,8 @@ module EXBlackBox
     ArithmeticLogicUnit 
     (
         .ALUOperation(ALUOperation_wire),
-        .A(RegisterOrShamt_wire),
-        .B(ReadData2OrInmmediate_wire),
+        .A(RegisterOrShamt),
+        .B(ReadData2OrInmmediate),
         .Zero(Zero),
         .ALUResult(ALUResult)
     );
