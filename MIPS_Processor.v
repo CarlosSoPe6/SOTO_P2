@@ -44,6 +44,9 @@ module MIPS_Processor
 //******************************************************************/
 assign  PortOut = 0;
 
+wire [1:0] ForwardA_wire;
+wire [1:0] ForwardB_wire;
+
 //******************************************************************/
 //******************************************************************/
 // Stage 1
@@ -258,7 +261,7 @@ id_blackBox
 	.ReadData1(ID_ReadData1_wire),
 	.ReadData2(ID_ReadData2_wire),
 	.InmmediateExtend(ID_InmmediateExtend_wire),
-	.ShamtExtend(ID_ShamtExtend_wire)
+	.ShamtExtend(ID_ShamtExtend_wire),
 );
 
 ID_EX_PipelineRegister
@@ -475,6 +478,21 @@ wbStage
 
 	.out_ALUMemOrPCData(WB_ALUMemOrPCData_wire),
 	.out_NewPC(WB_NewPC)
+);
+
+ForwardingUnit
+forwardingunit
+(
+	.EX_MEM_RegWrite(MEM_RegWrite_wire),
+	.MEM_WB_RegWrite(WB_RegWrite_wire),
+	.ID_EX_RegisterRs(EX_Instruction_wire[25:21]),
+	.ID_EX_RegisterRt(EX_Instruction_wire[20:16]),
+	.EX_MEM_RegisterRd(EX_WriteRegister_wire),
+	.MEM_WB_RegisterRd(MEM_WriteRegister_wire),
+	
+	.ForwardA(ForwardA_wire),
+	.ForwardB(ForwardB_wire)
+
 );
 
 assign ALUResultOut = WB_ALUResult_wire;
