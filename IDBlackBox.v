@@ -43,12 +43,16 @@ wire BranchEQ_wire;
 wire out_RegWrite_wire;
 wire MemWrite_wire;
 wire MemRead_wire;
+wire RegisterOrPC_wire;
+wire JumpControl_wire;
 
 assign BranchNE = BranchNE_wire & ~Stall ;
 assign BranchEQ = BranchEQ_wire & ~Stall ;
 assign out_RegWrite =  out_RegWrite_wire & ~Stall ;
 assign MemWrite =  MemWrite_wire & ~Stall ;
 assign MemRead = MemRead_wire & ~Stall ;
+assign JumpControl = JumpControl_wire & ~Stall;
+assign RegisterOrPC = RegisterOrPC_wire & ~Stall;
 
 Control
 ControlUnit
@@ -65,9 +69,9 @@ ControlUnit
 	.MemRead(MemRead_wire),
 	.MemtoReg(MemtoReg),
 	.ShamtSelector(ShamtSelector),
-	.RegisterOrPC(RegisterOrPC),
+	.RegisterOrPC(RegisterOrPC_wire),
 	.ALUMemOrPC(out_ALUMemOrPC),
-	.JumpControl(JumpControl)
+	.JumpControl(JumpControl_wire)
 );
 
 RegisterFile
@@ -139,7 +143,5 @@ UnsignedExtendForShamt
 	.DataInput(Instruction[10:6]),
 	.UnsignedExtendOutput(ShamtExtend)
 );
-
-
 
 endmodule

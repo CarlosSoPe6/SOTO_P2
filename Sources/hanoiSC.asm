@@ -1,6 +1,6 @@
 # hanoiTowers.asm
-# Author: Carlos Soto PÃ©rez
-# Author: Salvador Cortez Gonzï¿½lez
+# Author: Carlos Soto Pérez
+# Author: Salvador Cortez Gonz?lez
 .text    
 #------------------------------[Main function]-----------------------------------
 #
@@ -98,7 +98,8 @@ loop:
 	add		$a2, $zero, $t0		# $a2 = $zero + $a1
         
 	jal     hanoi
-        
+	add		$zero, $zero, $zero		# $zero = $zero + $zero
+	        
 	# Taking one plate
 # ------ [ stackPop ] ----------------------
 # INLINE

@@ -238,7 +238,7 @@ id_blackBox
 	.Instruction(ID_Instruction_wire),
 	.in_WriteRegister(WB_WriteRegister_wire),
 	.WriteData(WB_ALUMemOrPCData_wire),
-	.in_ALUMemOrPC(EX_ALUMemOrPC_wire),
+	.in_ALUMemOrPC(WB_ALUMemOrPC_wire),
 
 	.ShamtSelector(ID_ShamtSelector),
 	.ALUSrc(ID_ALUSrc),
@@ -253,6 +253,7 @@ id_blackBox
 	.JumpControl(ID_JumpControl_wire),
 	.out_RegWrite(ID_RegWrite_wire),
 	.out_WriteRegister(ID_WriteRegister_wire),
+	.out_ALUMemOrPC(ID_ALUMemOrPC_wire),
 	.ReadData1(ID_ReadData1_wire),
 	.ReadData2(ID_ReadData2_wire),
 	.ShamtExtend(ID_ShamtExtend_wire),
@@ -356,7 +357,6 @@ ex_mem_pipelineRegister
 	// General signals
 	.clk(clk),
 	.reset(reset),
-	.Flush(Flush_wire),
 
 	// Input signals
     .in_ALUResult(EX_ALUResult_wire),
