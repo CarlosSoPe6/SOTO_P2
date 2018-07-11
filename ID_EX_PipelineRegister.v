@@ -71,9 +71,9 @@ module ID_EX_PipelineRegister
     reg CtrlALUMemOrPC;
     reg CtrlRegWrite;
 
-    always @(negedge reset or negedge clk) 
+    always @(negedge reset or clk) 
     begin
-        if(reset == 0 || Flush == 1)
+        if(reset == 0 || (Flush == 1 && clk == 1))
         begin
 			ALUOp<=0;
 			PC_4<=0;
@@ -95,7 +95,7 @@ module ID_EX_PipelineRegister
 			CtrlRegisterOrPC <= 0;
 			CtrlALUMemOrPC <= 0;
         end
-        else
+        else if(clk == 0)
         begin
 			ALUOp<=in_ALUOp;
 			PC_4<=in_PC_4;

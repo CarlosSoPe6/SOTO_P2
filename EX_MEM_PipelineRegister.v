@@ -39,8 +39,8 @@ module EX_MEM_PipelineRegister(
     reg CtrlALUMemOrPC;
     reg CtrlRegWrite;
 
-    always @(negedge reset or negedge clk) begin
-      if(reset==0 || Flush == 1) 
+    always @(negedge reset or clk) begin
+      if(reset==0 || (Flush == 1 && clk == 1)) 
       begin
         ALUResult <= 0;
         WriteData <= 0;
@@ -54,7 +54,7 @@ module EX_MEM_PipelineRegister(
         CtrlALUOrMem <= 0;
         CtrlALUMemOrPC <= 0;
       end 
-      else 
+      else if(clk == 0)
       begin
         ALUResult <= in_ALUResult;
         WriteData <= in_WriteData;
