@@ -26,6 +26,11 @@ module DataMemory
 	reg [DATA_WIDTH-1:0] ram[MEMORY_DEPTH-1:0];
 	wire [DATA_WIDTH-1:0] ReadDataAux;
 
+	initial
+	begin
+		$readmemh("./Sources/data.dat", ram);
+	end
+
 	always @ (posedge clk)
 	begin
 		// Write

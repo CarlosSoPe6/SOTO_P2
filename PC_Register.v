@@ -20,7 +20,7 @@ module PC_Register
 	input clk,
 	input reset,
 	input  [N-1:0] NewPC,
-	
+	input PCWrite,
 	
 	output reg [N-1:0] PCValue
 );
@@ -28,8 +28,8 @@ module PC_Register
 always@(negedge reset or posedge clk) begin
 	if(reset==0)
 		PCValue <= 32'h0040_0000;
-	else	
-		PCValue<=NewPC;
+	else if (PCWrite == 1)
+		PCValue <= NewPC;
 end
 
 endmodule
