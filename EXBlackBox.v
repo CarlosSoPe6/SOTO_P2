@@ -6,34 +6,42 @@ module EXBlackBox
     input clk,
     input reset,
 
+    input RegisterOrPC,
+    input JumpControll,
     input ShamtSelector,
     input ALUSrc,
+    input BranchNotEquals,
+    input BranchEquals,
+    input [1:0] ForwardB,
+    input [1:0] ForwardA,
     input [NBits-1:0] ReadData1,
-    input [NBits-1:0] ShamtExtend,
     input [NBits-1:0] ReadData2,
+    input [NBits-1:0] ShamtExtend,
     input [NBits-1:0] InmmediateExtend,
     input [2:0] ALUOp,
     input [5:0] ALUFunction,
     input [25:0] JumpNoShifted,
     input [NBits-1:0] PC_4,
-    input [1:0] ForwardB,
-    input [1:0] ForwardA,
     input [NBits-1:0] ALUMemOrPCData,
     input [NBits-1:0] MEM_ALUResult,
 
+    output JumpOrBranchControll,
+    output [NBits-1:0] NewPC,
     output [NBits-1:0] WriteData,
-    output [NBits-1:0] BranchAddress,
-    output [NBits-1:0] JumpAddress,
-    output [NBits-1:0] ALUResult,
-    output Zero
+    output [NBits-1:0] ALUResult
 );
 
+    wire Zero_wire;
+    wire BranchControl_wire;
     wire [3:0] ALUOperation_wire;
-    wire [NBits-1:0] BranchShifter_wire;
-    wire [NBits-1:0] JumpAddress_wire;
     wire [NBits-1:0] ForwardingAData_wire;
     wire [NBits-1:0] ReadDataOrShamt_wire;
     wire [NBits-1:0] ForwardingBData_wire;
+    wire [NBits-1:0] BranchAddress_wire;
+    wire [NBits-1:0] BranchShifter_wire;
+    wire [NBits-1:0] JumpShited_wire;
+    wire [NBits-1:0] JumpAddress_wire;
+    wire [NBits-1:0] JumpOrBranch_wire;
     wire [NBits-1:0] ReadData2OrInmmediate_wire;
     
     Multiplexer3to1
@@ -108,15 +116,19 @@ module EXBlackBox
         .ALUOperation(ALUOperation_wire),
         .A(ReadDataOrShamt_wire),
         .B(ReadData2OrInmmediate_wire),
-        .Zero(Zero),
+        .Zero(Zero_wire),
         .ALUResult(ALUResult)
     );
+
+    /**
+     * Address Calculation
+     */
 
     ShiftLeft2
     JumpShifter
     (
         .DataInput(JumpNoShifted),
-        .DataOutput(JumpAddress_wire)
+        .DataOutput(JumpShited_wire)
     );
 
     ShiftLeft2
@@ -131,10 +143,46 @@ module EXBlackBox
     (
         .Data0(BranchShifter_wire),
         .Data1(PC_4),
-        .Result(BranchAddress)
+        .Result(BranchAddress_wire)
+    );
+
+    BranchModule
+    BranchController
+    (
+        .Zero(Zero_wire),
+        .BNEControl(BranchNotEquals),
+        .BEQControl(BranchEquals),
+        .BranchControlSignal(BranchControl_wire)
+    );
+
+    Multiplexer2to1
+    #(
+        .NBits(NBits)
+    )
+    MuxForJumpPcOrBranch
+    (
+        .Selector(BranchControl_wire),
+        .MUX_Data0(JumpAddress_wire),
+        .MUX_Data1(BranchAddress_wire),
+
+        .MUX_Output(JumpOrBranch_wire)
+    );
+
+    Multiplexer2to1
+    #(
+        .NBits(NBits)
+    )
+    MUX_ForRegisterOrPC
+    (
+        .Selector(RegisterOrPC),
+        .MUX_Data0(JumpOrBranch_wire),
+        .MUX_Data1(ReadData1),
+        
+        .MUX_Output(NewPC)
     );
 	
     assign WriteData = ForwardingBData_wire;
-    assign JumpAddress = {PC_4[31:28], JumpAddress_wire[27:0]};
+    assign JumpAddress_wire = {PC_4[31:28], JumpShited_wire[27:0]};
+    assign JumpOrBranchControll = JumpControll || RegisterOrPC || BranchControl_wire;
 
 endmodule // EXBlackBox

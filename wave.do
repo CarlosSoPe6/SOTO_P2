@@ -15,7 +15,6 @@ add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/ArithmeticL
 add wave -noupdate -divider EX/MEM
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegister/in_ALUResult
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegister/out_ALUResult
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/ex_mem_pipelineRegister/out_ReadData1
 add wave -noupdate -divider MUX
 add wave -noupdate -group MUXFA -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingA/Selector
 add wave -noupdate -group MUXFA -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingA/MUX_Data0
@@ -47,8 +46,31 @@ add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/hazardDetectionUnit
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/hazardDetectionUnit/Stall
 add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/hazardDetectionUnit/Flush
 add wave -noupdate /MIPS_Processor_TB/DUV/hazardDetectionUnit/BranchControl
+add wave -noupdate /MIPS_Processor_TB/DUV/exStage/JumpControll
+add wave -noupdate /MIPS_Processor_TB/DUV/exStage/JumpOrBranchControll
+add wave -noupdate -divider BranchController
+add wave -noupdate /MIPS_Processor_TB/DUV/exStage/BranchController/BEQControl
+add wave -noupdate /MIPS_Processor_TB/DUV/exStage/BranchController/BNEControl
+add wave -noupdate /MIPS_Processor_TB/DUV/exStage/BranchController/Zero
+add wave -noupdate /MIPS_Processor_TB/DUV/exStage/BranchController/BranchControlSignal
+add wave -noupdate -divider JumpOrBranch
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/Selector
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/MUX_Data0
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/MUX_Data1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/MUX_Output
+add wave -noupdate -divider RegOrPc
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/Selector
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/MUX_Data0
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/MUX_Data1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/MUX_Output
+add wave -noupdate -divider PCSelector
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/Selector
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/MUX_Data0
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/MUX_Data1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/MUX_Output
+add wave -noupdate /MIPS_Processor_TB/clk
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {64 ps} 0}
+WaveRestoreCursors {{Cursor 1} {66 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 173
 configure wave -valuecolwidth 100
@@ -64,4 +86,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {54 ps} {85 ps}
+WaveRestoreZoom {41 ps} {88 ps}

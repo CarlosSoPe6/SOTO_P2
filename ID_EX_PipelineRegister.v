@@ -6,6 +6,8 @@ module ID_EX_PipelineRegister
 (
     input clk,
     input reset,
+	input Flush,
+
 	input [2:0] in_ALUOp,
 	input [NBits-1:0] in_PC_4,
 	input [NBits-1:0] in_Instruction,
@@ -71,7 +73,7 @@ module ID_EX_PipelineRegister
 
     always @(negedge reset or negedge clk) 
     begin
-        if(reset == 0)
+        if(reset == 0 || Flush == 1)
         begin
 			ALUOp<=0;
 			PC_4<=0;

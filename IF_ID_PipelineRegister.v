@@ -7,6 +7,8 @@ module IF_ID_PipelineRegister
 (
     input clk,
     input reset,
+    input Flush,
+
     input RegWrite,
     input [NBits-1:0] in_PC_4,
     input [NBits-1:0] in_Instruction,
@@ -20,7 +22,7 @@ module IF_ID_PipelineRegister
     
     always @(negedge reset or negedge clk) 
     begin
-        if(reset==0)
+        if(reset==0 || Flush == 1)
         begin
             PC_4 <= 0;
             Instruction <= 0;
