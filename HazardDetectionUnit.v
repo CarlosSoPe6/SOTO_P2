@@ -14,7 +14,7 @@ module HazardDetectionUnit(
 	always @(*) 
 	begin
 		Stall = 0;
-		Flush = 0;
+		Flush = 1;
 		
 		if 
 		(
@@ -29,7 +29,7 @@ module HazardDetectionUnit(
 		// If the branch had to be taken flush the pipeline
 		if(BranchControl)
 		begin
-		  Flush = 1;
+		  Flush = 0;
 		end
 	end
 

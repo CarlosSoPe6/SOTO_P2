@@ -112,7 +112,7 @@ module EX_MEM_PipelineRegister(
     assign out_CtrlMemWrite = CtrlMemWrite;
     assign out_CtrlALUOrMem = CtrlALUOrMem;
     assign out_CtrlBranchEquals = CtrlBranchEquals;
-    assign out_CtrlBranchNotEquals = out_CtrlBranchNotEquals;
+    assign out_CtrlBranchNotEquals = CtrlBranchNotEquals;
     assign out_CtrlRegisterOrPC = CtrlRegisterOrPC;
     assign out_CtrlALUMemOrPC = CtrlALUMemOrPC;
 

@@ -223,7 +223,7 @@ IF_ID_PipelineRegister
 if_id_pipelineRegister
 (
     .clk(clk),
-    .reset(reset),
+    .reset(reset & Flush_wire),
 	.RegWrite(~Stall_wire),
     .in_PC_4(IF_PC_4_wire),
     .in_Instruction(IF_Instruction_wire),
@@ -278,7 +278,7 @@ ID_EX_PipelineRegister
 id_ex_pipelineRegister
 (
     .clk(clk),
-    .reset(reset),
+    .reset(reset & Flush_wire),
 	.in_ALUOp(ID_ALUOp_wire),
 	.in_PC_4(ID_PC_4_wire),
 	.in_Instruction(ID_Instruction_wire),
@@ -361,10 +361,10 @@ ex_mem_pipelineRegister
 (
 	// General signals
 	.clk(clk),
-	.reset(reset),
+	.reset(reset & Flush_wire),
 
 	// Input signals
-	.in_Zero(MEM_Zero_wire),
+	.in_Zero(EX_Zero_wire),
     .in_ALUResult(EX_ALUResult_wire),
 	.in_JumpAddress(EX_JumpAddress_wire),
 	.in_BranchAddress(EX_BranchAddress_wire),
@@ -518,7 +518,7 @@ hazardDetectionUnit
 	.ID_EX_RegisterRt(EX_Instruction_wire[20:16]),
 	.IF_ID_RegisterRs(ID_Instruction_wire[25:21]),
 	.IF_ID_RegisterRt(ID_Instruction_wire[20:16]),
-	.BranchControl(WB_BranchControl_wire),
+	.BranchControl(MEM_BranchControl_wire),
 
 	.Stall(Stall_wire),
 	.Flush(Flush_wire)
