@@ -37,19 +37,32 @@ module IDBlackBox
 wire [4:0] WriteRegister_wire;
 wire RegDst_wire;
 
+wire [4:0] out_WriteRegister_wire;
+wire BranchNE_wire;
+wire BranchEQ_wire;
+wire out_RegWrite_wire;
+wire MemWrite_wire;
+wire MemRead_wire;
+
+assign BranchNE = BranchNE_wire & ~Stall ;
+assign BranchEQ = BranchEQ_wire & ~Stall ;
+assign out_RegWrite =  out_RegWrite_wire & ~Stall ;
+assign MemWrite =  MemWrite_wire & ~Stall ;
+assign MemRead = MemRead_wire & ~Stall ;
+
 Control
 ControlUnit
 (
 	.OP(Instruction[31:26]),
 	.Function(Instruction[5:0]),
 	.RegDst(RegDst_wire),
-	.BranchNE(BranchNE),
-	.BranchEQ(BranchEQ),
+	.BranchNE(BranchNE_wire),
+	.BranchEQ(BranchEQ_wire),
 	.ALUOp(ALUOp),
 	.ALUSrc(ALUSrc),
-	.RegWrite(out_RegWrite),
-	.MemWrite(MemWrite),
-	.MemRead(MemRead),
+	.RegWrite(out_RegWrite_wire),
+	.MemWrite(MemWrite_wire),
+	.MemRead(MemRead_wire),
 	.MemtoReg(MemtoReg),
 	.ShamtSelector(ShamtSelector),
 	.RegisterOrPC(RegisterOrPC),
@@ -95,6 +108,20 @@ MUX_ForRTypeAndIType
 	.MUX_Data0(Instruction[20:16]),
 	.MUX_Data1(Instruction[15:11]),
 	
+	.MUX_Output(out_WriteRegister_wire)
+
+);
+
+Multiplexer2to1
+#(
+	.NBits(5)
+)
+MUX_ForRegisterWriteStall
+(
+	.Selector(Stall),
+	.MUX_Data0(out_WriteRegister_wire),
+	.MUX_Data1(0),
+	
 	.MUX_Output(out_WriteRegister)
 
 );
@@ -112,5 +139,7 @@ UnsignedExtendForShamt
 	.DataInput(Instruction[10:6]),
 	.UnsignedExtendOutput(ShamtExtend)
 );
+
+
 
 endmodule

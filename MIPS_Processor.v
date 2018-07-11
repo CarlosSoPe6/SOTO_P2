@@ -233,6 +233,8 @@ id_blackBox
 (
 	.clk(clk),
 	.reset(reset),
+	.Stall(Stall_wire),
+
 	.Instruction(ID_Instruction_wire),
 	.in_WriteRegister(WB_WriteRegister_wire),
 	.WriteData(WB_ALUMemOrPCData_wire),

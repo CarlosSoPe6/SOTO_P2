@@ -27,7 +27,7 @@ module HazardDetectionUnit(
 		end
 		else
 		begin
-		  Stall <= 0;
+			Stall <= 0;
 		end
 
 		// Branch not taken

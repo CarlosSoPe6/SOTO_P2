@@ -1,5 +1,8 @@
 # potencia.asm
 .text
+	add		$zero, $zero, $zero	
+	add		$zero, $zero, $zero
+	add		$zero, $zero, $zero
 _main:
     addi	$v0, $zero, 0			# $v0 = $zero + 0
     addi	$a0, $zero, 6			# $a0 = $zero + 6
@@ -24,3 +27,4 @@ loop:
     jr      $ra
     
 end:
+	add		$zero, $zero, $zero

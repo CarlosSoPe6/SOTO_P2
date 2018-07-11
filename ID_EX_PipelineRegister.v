@@ -7,7 +7,7 @@ module ID_EX_PipelineRegister
     input clk,
     input reset,
 	input Flush,
-
+	
 	input [2:0] in_ALUOp,
 	input [NBits-1:0] in_PC_4,
 	input [NBits-1:0] in_Instruction,
@@ -71,7 +71,7 @@ module ID_EX_PipelineRegister
     reg CtrlALUMemOrPC;
     reg CtrlRegWrite;
 
-    always @(negedge reset or clk) 
+    always @(reset or clk) 
     begin
         if(reset == 0 || (Flush == 1 && clk == 1))
         begin

@@ -39,24 +39,20 @@ add wave -noupdate -group Forward -radix hexadecimal /MIPS_Processor_TB/DUV/forw
 add wave -noupdate -divider Hazard
 add wave -noupdate /MIPS_Processor_TB/DUV/hazardDetectionUnit/Stall
 add wave -noupdate /MIPS_Processor_TB/DUV/hazardDetectionUnit/Flush
-add wave -noupdate -divider JumpOrBranch
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/Selector
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/MUX_Data0
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/MUX_Data1
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MuxForJumpPcOrBranch/MUX_Output
-add wave -noupdate -divider RegOrPc
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/Selector
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/MUX_Data0
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/MUX_Data1
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/MUX_ForRegisterOrPC/MUX_Output
-add wave -noupdate -divider PCSelector
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/Selector
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/MUX_Data0
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/MUX_Data1
-add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/if_blackBox/mux_for_PC_selector/MUX_Output
-add wave -noupdate /MIPS_Processor_TB/clk
+add wave -noupdate -divider FWA
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingA/Selector
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingA/MUX_Data0
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingA/MUX_Data1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingA/MUX_Data2
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingA/MUX_Output
+add wave -noupdate -divider FWB
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingB/Selector
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingB/MUX_Data0
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingB/MUX_Data1
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingB/MUX_Data2
+add wave -noupdate -radix hexadecimal /MIPS_Processor_TB/DUV/exStage/forwardingB/MUX_Output
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {17 ps} 0}
+WaveRestoreCursors {{Cursor 1} {22 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 173
 configure wave -valuecolwidth 100
@@ -72,4 +68,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {47 ps}
+WaveRestoreZoom {10 ps} {57 ps}

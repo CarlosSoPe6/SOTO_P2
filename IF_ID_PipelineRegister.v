@@ -20,7 +20,7 @@ module IF_ID_PipelineRegister
     reg [NBits-1:0] PC_4;
     reg [NBits-1:0] Instruction;
     
-    always @(negedge reset or clk) 
+    always @(reset or clk) 
     begin
         if(reset==0 || (Flush == 1 && clk == 1))
         begin

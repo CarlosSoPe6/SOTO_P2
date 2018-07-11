@@ -39,7 +39,7 @@ module EX_MEM_PipelineRegister(
     reg CtrlALUMemOrPC;
     reg CtrlRegWrite;
 
-    always @(negedge reset or clk) begin
+    always @(reset or clk) begin
       if(reset==0 || (Flush == 1 && clk == 1)) 
       begin
         ALUResult <= 0;

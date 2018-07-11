@@ -24,7 +24,7 @@ begin
 	begin
 		ForwardA = 2'b10;
 	end
-	else if(EX_MEM_RegWrite 
+	if(EX_MEM_RegWrite 
 		&& (EX_MEM_RegisterRd != 0)  
 		&& (EX_MEM_RegisterRd == ID_EX_RegisterRt)
 	)
@@ -33,17 +33,17 @@ begin
 	end
 
    if(MEM_WB_RegWrite 
-      && (MEM_WB_RegisterRd != 0)  
-	   && (EX_MEM_RegisterRd != ID_EX_RegisterRs)
-	   && (MEM_WB_RegisterRd == ID_EX_RegisterRs)
+      	&& (MEM_WB_RegisterRd != 0)  
+			&& (EX_MEM_RegisterRd != ID_EX_RegisterRs)
+			&& (MEM_WB_RegisterRd == ID_EX_RegisterRs)
 	) 
 	begin
 		ForwardA = 2'b01;
 	end
-	else if(MEM_WB_RegWrite 
-           && (MEM_WB_RegisterRd != 0)  
-			  && (EX_MEM_RegisterRd != ID_EX_RegisterRt)
-			  && (MEM_WB_RegisterRd == ID_EX_RegisterRt)
+	if(MEM_WB_RegWrite 
+		&& (MEM_WB_RegisterRd != 0)  
+			&& (EX_MEM_RegisterRd != ID_EX_RegisterRt)
+			&& (MEM_WB_RegisterRd == ID_EX_RegisterRt)
 	)
 	begin
 		ForwardB = 2'b01;
