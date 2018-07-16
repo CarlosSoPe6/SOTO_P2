@@ -488,4 +488,3 @@ hazardDetectionUnit
 assign ALUResultOut = WB_ALUResult_wire;
 
 endmodule
-
